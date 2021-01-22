@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import moment from "moment";
-import { COLORS } from "../constants";
+import { COLORS } from "../../constants";
 
-const SingleTweet = ({ tweetArray, status }) => {
+const BigTweet = ({ tweetArray, status }) => {
   if (status === "loading") {
     return <div>Loading</div>;
   }
@@ -66,4 +66,4 @@ const TweetPic = styled.img`
   max-height: 400px;
   width: 95%;
 `;
-export default SingleTweet;
+export default BigTweet;

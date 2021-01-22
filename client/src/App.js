@@ -6,8 +6,8 @@ import HomeFeed from "./components/HomeFeed";
 import GlobalStyles from "./GlobalStyles";
 import Bookmarks from "./components/Bookmarks";
 import Notifications from "./components/Notifications";
-import Profile from "./components/Profile";
-import TweetDetails from "./components/TweetDetails";
+import Profile from "./components/Profile/Profile";
+import TweetDetails from "./components/Tweets/TweetDetails";
 import SideBar from "./components/Sidebar";
 function App() {
   return (
@@ -52,9 +52,10 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.div`
-  border: 1px solid lightgray;
+
   border-bottom:none;
-  height: 100vh;
-  width: 60vw;
+padding:0;
+line-height:100%;
+  width: 40em;
 `;
 export default App;

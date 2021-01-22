@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Logo from "../logo";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { COLORS } from "../constants";
 import { BiHomeAlt } from "react-icons/bi";
 import { IoIosNotificationsOutline as Notif } from "react-icons/io";
+import { CurrentUserContext } from "./CurrentUserContext";
 import { CgProfile } from "react-icons/cg";
 import { BsBookmark } from "react-icons/bs";
 
 const SideBar = () => {
+
+  const { currentUser, currentHandle, status, setStatus, setCurrentUser } = useContext(CurrentUserContext);
+
+
+
+
   return (
     <Menu>
       <Logo />
@@ -16,27 +24,27 @@ const SideBar = () => {
       <MainMenu>
         <Navig to="/">
           <ItemDiv>
-            <BiHomeAlt  /> <Name> Home{" "}</Name>
+            <BiHomeAlt /> <Name> Home </Name>
           </ItemDiv>
         </Navig>
-        <Navig to="profile/:handle">
+       <Navig to={status === "loading" ? `/profile/` :  `/profile/${currentHandle}`}>
+    
           <ItemDiv>
-        
-            <CgProfile  />
-            <Name>Profile{" "}</Name> 
+            <CgProfile />
+            <Name>Profile </Name>
           </ItemDiv>
         </Navig>
         <Navig to="/notifications">
           <ItemDiv>
-            <Notif  />
-            <Name> Notifications{" "}</Name> 
+            <Notif />
+            <Name> Notifications </Name>
           </ItemDiv>
         </Navig>
         <Navig to="/bookmarks">
           <ItemDiv>
             {" "}
-            <BsBookmark  />
-            <Name>Bookmarks{" "}</Name>    
+            <BsBookmark />
+            <Name>Bookmarks </Name>
           </ItemDiv>
         </Navig>
         <Button>Meow</Button>
@@ -62,9 +70,7 @@ const MainMenu = styled.div`
 `;
 const ItemDiv = styled.div`
   display: flex;
-  align-items:center;
-  
- 
+  align-items: center;
 `;
 
 const Button = styled.button`
@@ -79,20 +85,18 @@ const Button = styled.button`
 const Navig = styled(NavLink)`
   text-decoration: none;
   font-weight: bolder;
-  width:150px;
+  width: 150px;
   color: black;
-  padding-left:15px;
+  padding-left: 15px;
 
   &:hover {
     color: ${COLORS.primary};
     background-color: ${COLORS.lightPurple};
     border-radius: 50px;
-
-
   }
 `;
 const Name = styled.h5`
-padding-left:10px;
+  padding-left: 10px;
 `;
 const Home = styled(BiHomeAlt)``;
 export default SideBar;

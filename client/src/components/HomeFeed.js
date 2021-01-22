@@ -2,43 +2,18 @@ import React, { useEffect, useContext, useState } from "react";
 import styled from "styled-components";
 import { COLORS } from "../constants";
 import { CurrentUserContext } from "./CurrentUserContext";
-import moment from "moment";
-import SingleTweet from "./SingleTweet";
+import SmallTweet from "./Tweets/SmallTweet";
 
 const HomeFeed = () => {
+  const { homeFeed, status } = useContext(CurrentUserContext);
 
-  const [homeFeed, setHomeFeed] = useState();
-  const [status, setStatus] = useState("loading")
-  const getHomeFeed = async () => {
-    try{
-      const response = await fetch("/api/me/home-feed").then((data) => data.json());
-      setHomeFeed(response.tweetsById);
-    } catch(err){
-      setStatus('error')
-    }
-  };
-
-  useEffect(()=>{
-    if(!homeFeed){
-      getHomeFeed()
-    }
-  },[])
-
-  useEffect(()=>{
-    if(homeFeed){
-      setStatus('idle')
-    }
-  }, [homeFeed])
-
- if (status === 'error'){
-    return (
-      <div>error</div>
-    )
+  if (status === "error") {
+    return <div>error</div>;
   }
   console.log(status);
   return (
     <Wrapper>
-      <Feed>
+    
         <TweetField>
           <Title>Home</Title>
           <TextArea type="text" placeholder="What is happening?" />
@@ -49,33 +24,31 @@ const HomeFeed = () => {
         </TweetField>
         <Scroll>
           {homeFeed && (
-              <SingleTweet tweetArray={Object.values(homeFeed)} status={status} />
+            <SmallTweet tweetArray={Object.values(homeFeed)} status={status} />
           )}
         </Scroll>
-      </Feed>
+     
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   display: flex;
+  border-left: 1px lightgray solid;
+  border-right: 1px lightgray solid;
   width: 100%;
-  
-`;
 
-const Feed = styled.div`
-  width: 100%;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 5px;
 `;
+
+
 const TweetField = styled.div`
   margin: 20px;
   border-radius: 10px;
   width: 100%;
-
 `;
 const SubmitBar = styled.div`
   display: flex;
@@ -110,13 +83,11 @@ const Button = styled.button`
 `;
 const Title = styled.h4``;
 
-
 const Scroll = styled.div`
   margin-top: 20px;
   border-top: 10px lightgray solid;
-margin: 0px -17px 0px -17px;
+  margin: 0px -17px 0px -17px;
   width: 100%;
-  border-left: 1px lightgray solid;
-  border-right: 1px lightgray solid;
+
 `;
 export default HomeFeed;
