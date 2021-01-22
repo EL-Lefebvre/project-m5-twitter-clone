@@ -34,9 +34,9 @@ function App() {
                 {" "}
                 <TweetDetails />{" "}
               </Route>
-              <Route path="/:profileId">
-                {" "}
-                <Profile />{" "}
+              <Route path="/profile/:handle">
+            
+                <Profile />
               </Route>
             </Switch>
           </Main>
@@ -53,7 +53,8 @@ const Wrapper = styled.div`
 
 const Main = styled.div`
   border: 1px solid lightgray;
+  border-bottom:none;
   height: 100vh;
-  width: 50vw;
+  width: 60vw;
 `;
 export default App;

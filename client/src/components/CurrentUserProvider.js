@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect,useState,useContext  } from "react";
+
 import { CurrentUserContext } from "./CurrentUserContext";
 
 export const CurrentUserProvider = ({ children }) => {
@@ -9,12 +10,35 @@ export const CurrentUserProvider = ({ children }) => {
   // When the data is received, update currentUser.
   // Also, set `status` to `idle`
 
-  fetch("/me/profile")
- 
-  .then((data)=> console.log(data))
+  const profileInfo = async () => {
+      try{
+          const response = await fetch(`/api/me/profile`)
+            .then((data) => data.json())
+            .then((data) => data.profile)
+           setCurrentUser(response);
 
+      }catch(err){
+          setStatus('error')
+      }
+  }
+
+  useEffect(()=>{
+      if(!currentUser){
+          profileInfo()
+      }
+  }, [])
+
+  useEffect(() => {
+      if(currentUser){
+          setStatus("idle")
+      }
+  }, [currentUser])
+
+  //use another use effect to set status to idle
   return (
-    <CurrentUserContext.Provider value={{ currentUser, status }}>
+    <CurrentUserContext.Provider
+      value={{ currentUser, status }}
+    >
       {children}
     </CurrentUserContext.Provider>
   );

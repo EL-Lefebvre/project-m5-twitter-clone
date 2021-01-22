@@ -10,7 +10,7 @@ app.use(express.json());
 
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-
+// app.use(bodyParser.json())
 app.use(require('./routes/profile'));
 app.use(require('./routes/tweet'));
 app.use(require('./routes/feed'));

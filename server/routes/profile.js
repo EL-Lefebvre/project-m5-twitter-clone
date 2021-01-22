@@ -14,10 +14,14 @@ const {
   simulateProblems,
 } = require('./routes.helpers.js');
 
+//  router.get('/api/me/profile', (req, res) => {
+//   const profile = getUserProfile(CURRENT_USER_HANDLE);
+//   return res.status(200).json({status:200, data:profile });
+// });
+
 router.get('/api/me/profile', (req, res) => {
   const profile = getUserProfile(CURRENT_USER_HANDLE);
-
-  return simulateProblems(res, { profile });
+  return simulateProblems(res, { profile } );
 });
 
 router.get('/api/:handle/profile', (req, res) => {
@@ -31,7 +35,7 @@ router.get('/api/:handle/profile', (req, res) => {
   }
 
   return res.json({
-    profile,
+    profile, 
   });
 });
 
