@@ -5,17 +5,36 @@ import { IoLocationOutline as Location } from "react-icons/io5";
 import { AiTwotoneCalendar as Calendar } from "react-icons/ai";
 import moment from "moment";
 import { CurrentUserContext } from "../CurrentUserContext";
-import BigTweet from "../Tweets/BigTweets";
+
+import SmallTweet from "../Tweets/SmallTweet";
 
 const Profile = () => {
-  const { currentUser, homeFeed, status } = useContext(
+  const [boolUser, setBoolUser] = useState(false);
+  const { currentUser, currentHandle, homeFeed, status } = useContext(
     CurrentUserContext
   );
+ console.log(homeFeed)
+  useEffect(() => {
+    if (currentUser && currentHandle) {
+      if (currentUser.handle === currentHandle.handle) {
+        setBoolUser(true);
+      }
+      return boolUser;
+    }
+    console.log(boolUser);
+    return boolUser;
+  }, [currentUser]);
 
+  console.log(boolUser);
+  if (currentUser === "") {
+    return <div>Loading</div>;
+  }
   if (status === "loading") {
     return <div>Loading</div>;
   }
 
+
+  
   return (
     currentUser && (
       <Wrapper>
@@ -29,16 +48,21 @@ const Profile = () => {
             {`@ ${currentUser.handle}`}
           </Handle>
           <Date>
-          <List>
-            <Location /> {currentUser.location}{" "}
-          </List>
-          <List>
-            <Calendar /> Joined {moment(currentUser.joined).format("MM YYYY")}
-          </List>
+            <List>
+              <Location /> {currentUser.location}{" "}
+            </List>
+            <List>
+              <Calendar /> Joined {moment(currentUser.joined).format("MM YYYY")}
+            </List>
           </Date>
           <Follow>
-            <Span>{currentUser.numFollowers}</Span> Followers
-            <Span>{currentUser.numFollowing}</Span> Following
+            <Item>
+              <Span>{currentUser.numFollowers}</Span> Followers{" "}
+            </Item>
+
+            <Item>
+              <Span>{currentUser.numFollowing}</Span> Following{" "}
+            </Item>
           </Follow>
         </ProfileInfo>
         <ProfileMenu>
@@ -47,7 +71,9 @@ const Profile = () => {
           <MenuItems>Likes</MenuItems>
         </ProfileMenu>
         <Feed>
-        <BigTweet tweetArray={Object.values(homeFeed)} status={status} />
+          {homeFeed && (
+            <SmallTweet tweetArray={Object.values(homeFeed)} status={status} />
+          )}
         </Feed>
       </Wrapper>
     )
@@ -55,20 +81,23 @@ const Profile = () => {
 };
 
 const Wrapper = styled.div`
-  height: 100vh;
+  display: flex;
+  border-left: 1px lightgray solid;
+  border-right: 1px lightgray solid;
+  width: 100%;
+  flex-direction: column;
 `;
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  height: 300px;
+  height: 200px;
 `;
 const ProfileMenu = styled.div`
   display: flex;
   justify-content: space-evenly;
 `;
 const Date = styled.div`
-display:flex;
-
+  display: flex;
 `;
 const Handle = styled.div`
   display: flex;
@@ -76,11 +105,12 @@ const Handle = styled.div`
 `;
 const Follow = styled.div`
   display: flex;
-  padding:10px;
-  margin:10px;
+  padding: 10px;
+  margin: 10px;
 `;
 const Span = styled.span`
   font-weight: bolder;
+  padding-right: 5px;
 `;
 const Feed = styled.div``;
 const Tweet = styled.div``;
@@ -94,12 +124,16 @@ const Avatar = styled.img`
   width: 100px;
   margin-top: -40px;
   z-index: 2;
-  padding: 10px;
-  border: 1px solid white;
+
+  border: 5px solid white;
 `;
-const List = styled.h4``;
+const List = styled.h4`
+  padding: 5px;
+`;
 const MenuItems = styled.h3`
   padding-right: 40px;
 `;
-
+const Item = styled.p`
+  padding: 5px;
+`;
 export default Profile;

@@ -16,7 +16,6 @@ const SideBar = () => {
 
 
 
-
   return (
     <Menu>
       <Logo />
@@ -27,7 +26,7 @@ const SideBar = () => {
             <BiHomeAlt /> <Name> Home </Name>
           </ItemDiv>
         </Navig>
-       <Navig to={status === "loading" ? `/profile/` :  `/profile/${currentHandle}`}>
+       <Navig to={ `/profile/${currentHandle}`}>
     
           <ItemDiv>
             <CgProfile />

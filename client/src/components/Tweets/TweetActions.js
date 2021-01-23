@@ -7,7 +7,7 @@ import { HiOutlineHeart as Heart } from "react-icons/hi";
 import { FaRegComment as Comment } from "react-icons/fa";
 
 const TweetActions = () => {
-  console.log(Heart);
+
   return (
     <Wrapper>
       <Comment />

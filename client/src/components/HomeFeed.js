@@ -2,32 +2,54 @@ import React, { useEffect, useContext, useState } from "react";
 import styled from "styled-components";
 import { COLORS } from "../constants";
 import { CurrentUserContext } from "./CurrentUserContext";
+import { useHistory } from "react-router-dom";
 import SmallTweet from "./Tweets/SmallTweet";
 
 const HomeFeed = () => {
-  const { homeFeed, status } = useContext(CurrentUserContext);
+  const [historyUrl, setHistoryUrl] = useState();
+  const [singleTweetId, setSingleTweetId] = useState();
+  const [handleTweet, setHandleTweet] = useState();
+  const [toggle, setToggle] = useState(false);
+  const { homeFeed, setStatus, status } = useContext(CurrentUserContext);
+  let history = useHistory();
 
   if (status === "error") {
     return <div>error</div>;
   }
+  const handleFeed = (id) => {
+    setHandleTweet(id);
+    history.push(`/tweet/${id}`);
+    console.log(id);
+  };
+
+
+   
+   
+  
+
+console.log(handleTweet)
+
   console.log(status);
   return (
     <Wrapper>
-    
-        <TweetField>
-          <Title>Home</Title>
-          <TextArea type="text" placeholder="What is happening?" />
-          <SubmitBar>
-            <Count>280</Count>
-            <Button>Meow</Button>
-          </SubmitBar>
-        </TweetField>
-        <Scroll>
-          {homeFeed && (
-            <SmallTweet tweetArray={Object.values(homeFeed)} status={status} />
-          )}
-        </Scroll>
-     
+      <TweetField>
+        <Title>Home</Title>
+        <TextArea type="text" placeholder="What is happening?" />
+        <SubmitBar>
+          <Count>280</Count>
+          <Button>Meow</Button>
+        </SubmitBar>
+      </TweetField>
+      <Scroll>
+        {homeFeed && (
+          <SmallTweet
+            handleFeed={handleFeed}
+            setHistoryUrl={setHistoryUrl}
+            tweetArray={Object.values(homeFeed)}
+            status={status}
+          />
+        )}
+      </Scroll>
     </Wrapper>
   );
 };
@@ -37,13 +59,11 @@ const Wrapper = styled.div`
   border-left: 1px lightgray solid;
   border-right: 1px lightgray solid;
   width: 100%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 5px;
 `;
-
 
 const TweetField = styled.div`
   margin: 20px;
@@ -88,6 +108,5 @@ const Scroll = styled.div`
   border-top: 10px lightgray solid;
   margin: 0px -17px 0px -17px;
   width: 100%;
-
 `;
 export default HomeFeed;

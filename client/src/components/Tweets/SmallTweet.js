@@ -1,25 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import { COLORS } from "../../constants";
 import TweetActions from "./TweetActions";
 
-const SmallTweet = ({ tweetArray, status }) => {
+const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
+  const [singleTweet, setSingleTweet] = useState();
+
   if (status === "loading") {
     return <div>Loading</div>;
   }
-  return (tweetArray.map((feed, feedId) => {
+// console.log(tweetArray)
+  return tweetArray.map((feed, feedId) => {
     return (
-      <Wrapper key={feedId}>
+      <Wrapper
+        id="wrapper"
+        key={feedId}
+        value={feed.id}
+        tabIndex="0"
+        onClick={() => {
+          handleFeed(`${feed.id}`);
+        }}
+      >
         <Feed>
           <AvatarDiv>
             <ProfilePic src={feed.author.avatarSrc} />
           </AvatarDiv>
           <InfoDiv>
-       <HandleDiv>
-            <ProfileLink>{feed.author.displayName} </ProfileLink>
-            <TextPale>{`@ ${feed.author.handle} `}</TextPale>
-            <TextPale> -{moment(feed.timestamp).format("MMM YYYY")}</TextPale>
+            <HandleDiv>
+              <ProfileLink>{feed.author.displayName} </ProfileLink>
+              <TextPale>{`@ ${feed.author.handle} `}</TextPale>
+              <TextPale> -{moment(feed.timestamp).format("MMM YYYY")}</TextPale>
             </HandleDiv>
             <Status>{feed.status} </Status>
           </InfoDiv>
@@ -35,7 +47,7 @@ const SmallTweet = ({ tweetArray, status }) => {
         <TweetActions />
       </Wrapper>
     );
-  }));
+  });
 };
 
 const Wrapper = styled.div`
@@ -61,22 +73,21 @@ const InfoDiv = styled.div`
 `;
 const HandleDiv = styled.div`
   display: flex;
-align-items:center;
+  align-items: center;
 `;
 const Status = styled.div`
-display:flex;
-justify-content:center;
+  display: flex;
+  justify-content: center;
 `;
 const TweetPicWrapper = styled.div`
-display:flex;
-justify-content:center;
+  display: flex;
+  justify-content: center;
 `;
 const ProfileLink = styled.a`
   font-weight: bolder;
   text-decoration: underline;
   cursor: pointer;
 `;
-
 
 const TextPale = styled.p`
   color: ${COLORS.secondary};
