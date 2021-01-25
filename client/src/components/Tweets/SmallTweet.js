@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+// import { browserHistory } from "react-router"
 import { useHistory } from "react-router-dom";
+import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
 import moment from "moment";
 import { COLORS } from "../../constants";
 import TweetActions from "./TweetActions";
 
 const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
-  const [singleTweet, setSingleTweet] = useState();
+  const history = useHistory();
 
   if (status === "loading") {
     return <div>Loading</div>;
   }
-// console.log(tweetArray)
+
+  const historyPath = history.location.pathname.includes("profile");
+
+
   return tweetArray.map((feed, feedId) => {
     return (
       <Wrapper
@@ -22,6 +27,9 @@ const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
         onClick={() => {
           handleFeed(`${feed.id}`);
         }}
+        onKeyPress={() => {
+          handleFeed(`${feed.id}`);
+        }}
       >
         <Feed>
           <AvatarDiv>
@@ -29,7 +37,35 @@ const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
           </AvatarDiv>
           <InfoDiv>
             <HandleDiv>
-              <ProfileLink>{feed.author.displayName} </ProfileLink>
+              <div
+                tabIndex="1"
+                onClick={(e) => {
+                  e.cancelBubble = true;
+                  if (e.stopPropagation) {
+                    e.stopPropagation();
+                    if (historyPath) {
+                      history.replace(`${feed.author.handle}`);
+                    } else {
+                      history.replace(`profile/${feed.author.handle}`);
+                    }
+                  }
+                }}
+                onKeyPress={(e) => {
+                  e.cancelBubble = true;
+                  if (e.stopPropagation) {
+                    e.stopPropagation();
+
+                    if (historyPath) {
+                      history.replace(`${feed.author.handle}`);
+                    } else {
+                      history.replace(`profile/${feed.author.handle}`);
+                    }
+                  }
+                }}
+              >
+                {" "}
+                <ProfileLink>{feed.author.displayName} </ProfileLink>
+              </div>
               <TextPale>{`@ ${feed.author.handle} `}</TextPale>
               <TextPale> -{moment(feed.timestamp).format("MMM YYYY")}</TextPale>
             </HandleDiv>

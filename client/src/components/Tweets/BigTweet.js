@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import { COLORS } from "../../constants";
@@ -7,43 +7,72 @@ import { CurrentUserContext } from "../CurrentUserContext";
 import TweetActions from "./TweetActions";
 
 const BigTweet = ({ singleTweetId }) => {
-  const { setStatus,status } = useContext(
-    CurrentUserContext
-  );
-const author = (singleTweetId.author)
-const media = (singleTweetId.media)
+  const history = useHistory();
+  const { setStatus, status } = useContext(CurrentUserContext);
+
+ 
+
 
   if (status === "loading") {
     return <div>Loading</div>;
   }
-    
+  console.log(history.location)
 
- 
- 
-    return singleTweetId && ( 
-      <Wrapper key={singleTweetId.id} >
-        <Tweet >
-           <ProfilePic src={author.avatarSrc} /> 
-           <ProfileField>
-          <ProfileLink>{author.displayName} </ProfileLink>
-          <TextPale>{`@ ${author.handle} `}</TextPale> 
-           </ProfileField> 
-          
+  const historyPath = history.location.pathname.includes("profile");
+  const tweetPath = history.location.pathname.includes("tweet");
+  return (
+    singleTweetId && (
+      <Wrapper key={singleTweetId.id}>
+        <Tweet>
+          <ProfilePic src={singleTweetId.author.avatarSrc} />
+          <ProfileField
+            tabIndex="1"
+            onClick={(e) => {
+              e.cancelBubble = true;
+              if (e.stopPropagation) {
+                e.stopPropagation();
+               history.replace(`/profile/${singleTweetId.author.handle}`);
+              //  history.push(`${author.handle}`);
+              //  history.location.pathname.replace("tweet", "profile")
+                  // history.push(`${author.handle}`);
+                
+              }
+            }}
+            onKeyPress={(e) => {
+              e.cancelBubble = true;
+              if (e.stopPropagation) {
+                e.stopPropagation();
+
+                if (tweetPath) {
+                  history.createHref();
+                  history.replace(`profile/${singleTweetId.author.handle}`);
+                }
+              }
+            }}
+          >
+            <ProfileLink>{singleTweetId.author.displayName} </ProfileLink>
+            <TextPale>{`@ ${singleTweetId.author.handle} `}</TextPale>
+          </ProfileField>
         </Tweet>
         {singleTweetId.status}
         <TweetPicWrapper>
-        {media.map((med) => {
-          if (med.url !== "") {
-            return (<TweetPic src={med.url} />);
-          }
-        })}
+          {singleTweetId.media.map((med) => {
+            if (med.url !== "") {
+              return <TweetPic src={med.url} />;
+            }
+          })}
         </TweetPicWrapper>
-        <TextPale> {`${moment(singleTweetId.timestamp).format("hh:mm A, MMM Do YYYY")} - Critter App`}</TextPale>
-            <TweetActions />
+        <TextPale>
+          {" "}
+          {`${moment(singleTweetId.timestamp).format(
+            "hh:mm A, MMM Do YYYY"
+          )} - Critter App`}
+        </TextPale>
+        <TweetActions />
       </Wrapper>
-    );
-  }
-
+    )
+  );
+};
 
 const Wrapper = styled.div`
   border: 1px solid lightgray;
@@ -60,8 +89,8 @@ const Tweet = styled.div`
   padding: 10px;
 `;
 const TweetPicWrapper = styled.div`
-display:flex;
-justify-content:center;
+  display: flex;
+  justify-content: center;
 `;
 const ProfileLink = styled.a`
   font-weight: bolder;
@@ -70,11 +99,11 @@ const ProfileLink = styled.a`
 `;
 const TextPale = styled.p`
   color: ${COLORS.secondary};
-  font-size:.8em;
+  font-size: 0.8em;
 `;
 const ProfileField = styled.div`
-display:flex;
-flex-direction:column;
+  display: flex;
+  flex-direction: column;
 `;
 const ProfilePic = styled.img`
   height: 50px;

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { IoLocationOutline as Location } from "react-icons/io5";
 import { AiTwotoneCalendar as Calendar } from "react-icons/ai";
@@ -9,23 +9,45 @@ import { CurrentUserContext } from "../CurrentUserContext";
 import SmallTweet from "../Tweets/SmallTweet";
 
 const Profile = () => {
+  const history = useHistory();
   const [boolUser, setBoolUser] = useState(false);
-  const { currentUser, currentHandle, homeFeed, status } = useContext(
+  const [handleTweet, setHandleTweet] = useState();
+  const [currentHandle, setCurrentHandle] = useState("");
+  const { currentUser, homeFeed, status, setStatus, profileUrl, setProfileUrl } = useContext(
     CurrentUserContext
   );
- console.log(homeFeed)
-  useEffect(() => {
-    if (currentUser && currentHandle) {
-      if (currentUser.handle === currentHandle.handle) {
-        setBoolUser(true);
-      }
-      return boolUser;
-    }
-    console.log(boolUser);
-    return boolUser;
-  }, [currentUser]);
+  const { handle } = useParams();
+  setProfileUrl(true)
+  const handleInfo = async () => {
+    try {
+      const response = await fetch(`/api/${handle}/profile`)
+        .then((data) => data.json())
+        .then((data) => data.profile);
 
-  console.log(boolUser);
+      setCurrentHandle(response);
+      console.log(response);
+    } catch (err) {
+      setStatus("error");
+    }
+  };
+
+  useEffect(() => {
+    if (handle) {
+      handleInfo();
+    }
+   
+    setStatus("idle");
+  }, [handle]);
+
+  const handleFeed = (id) => {
+    setHandleTweet(id);
+   
+      
+      history.push(`/tweet/${id}`);
+
+  };
+
+ 
   if (currentUser === "") {
     return <div>Loading</div>;
   }
@@ -33,50 +55,54 @@ const Profile = () => {
     return <div>Loading</div>;
   }
 
+  return currentHandle ? (
+    <Wrapper>
+      <div>
+        <Banner src={currentHandle.bannerSrc} />
+        <Avatar src={currentHandle.avatarSrc} />
+      </div>
+      <ProfileInfo>
+        <Handle>
+          <Span>{currentHandle.displayName}</Span>
+          {`@ ${currentHandle.handle}`}
+        </Handle>
+        <Date>
+          <List>
+            <Location /> {currentHandle.location}{" "}
+          </List>
+          <List>
+            <Calendar /> Joined {moment(currentHandle.joined).format("MM YYYY")}
+          </List>
+        </Date>
+        <Follow>
+          <Item>
+            <Span>{currentHandle.numFollowers}</Span> Followers{" "}
+          </Item>
 
-  
-  return (
-    currentUser && (
-      <Wrapper>
-        <div>
-          <Banner src={currentUser.bannerSrc} />
-          <Avatar src={currentUser.avatarSrc} />
-        </div>
-        <ProfileInfo>
-          <Handle>
-            <Span>{currentUser.displayName}</Span>
-            {`@ ${currentUser.handle}`}
-          </Handle>
-          <Date>
-            <List>
-              <Location /> {currentUser.location}{" "}
-            </List>
-            <List>
-              <Calendar /> Joined {moment(currentUser.joined).format("MM YYYY")}
-            </List>
-          </Date>
-          <Follow>
-            <Item>
-              <Span>{currentUser.numFollowers}</Span> Followers{" "}
-            </Item>
-
-            <Item>
-              <Span>{currentUser.numFollowing}</Span> Following{" "}
-            </Item>
-          </Follow>
-        </ProfileInfo>
-        <ProfileMenu>
-          <MenuItems>Menu</MenuItems>
-          <MenuItems>Media</MenuItems>
-          <MenuItems>Likes</MenuItems>
-        </ProfileMenu>
-        <Feed>
-          {homeFeed && (
-            <SmallTweet tweetArray={Object.values(homeFeed)} status={status} />
-          )}
-        </Feed>
-      </Wrapper>
-    )
+          <Item>
+            <Span>{currentHandle.numFollowing}</Span> Following{" "}
+          </Item>
+        </Follow>
+      </ProfileInfo>
+      <ProfileMenu>
+        <MenuItems>Menu</MenuItems>
+        <MenuItems>Media</MenuItems>
+        <MenuItems>Likes</MenuItems>
+      </ProfileMenu>
+      <Feed>
+        {homeFeed && (
+          <SmallTweet
+          handleFeed={handleFeed}
+            tweetArray={Object.values(homeFeed)}
+            status={status}
+            profileUrl={profileUrl}
+            setProfileUrl={setProfileUrl}
+          />
+        )}
+      </Feed>
+    </Wrapper>
+  ) : (
+    <div>Loading</div>
   );
 };
 

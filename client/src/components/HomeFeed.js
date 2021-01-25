@@ -9,8 +9,9 @@ const HomeFeed = () => {
   const [historyUrl, setHistoryUrl] = useState();
   const [singleTweetId, setSingleTweetId] = useState();
   const [handleTweet, setHandleTweet] = useState();
+  const [handleProfileId, setHandleProfileId] =useState();
   const [toggle, setToggle] = useState(false);
-  const { homeFeed, setStatus, status } = useContext(CurrentUserContext);
+  const { homeFeed, setStatus, status, profileUrl, setProfileUrl } = useContext(CurrentUserContext);
   let history = useHistory();
 
   if (status === "error") {
@@ -18,13 +19,13 @@ const HomeFeed = () => {
   }
   const handleFeed = (id) => {
     setHandleTweet(id);
-    history.push(`/tweet/${id}`);
-    console.log(id);
+   
+      
+      history.push(`/tweet/${id}`);
+
   };
 
 
-   
-   
   
 
 console.log(handleTweet)
@@ -47,6 +48,7 @@ console.log(handleTweet)
             setHistoryUrl={setHistoryUrl}
             tweetArray={Object.values(homeFeed)}
             status={status}
+          
           />
         )}
       </Scroll>
