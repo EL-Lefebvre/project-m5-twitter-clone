@@ -12,42 +12,28 @@ const Profile = () => {
   const history = useHistory();
   const [boolUser, setBoolUser] = useState(false);
   const [handleTweet, setHandleTweet] = useState();
-  const [currentHandle, setCurrentHandle] = useState("");
-  const { currentUser, homeFeed, status, setStatus, profileUrl, setProfileUrl } = useContext(
-    CurrentUserContext
-  );
+
+  // const [currentHandle, setCurrentHandle] = useState("");
+  const {
+    currentUser,
+    homeFeed,
+    status,
+    setStatus,
+    profileUrl,
+    setProfileUrl,
+    currentProfileFeed,
+    setCurrentUserHandle,
+    currentUserData,
+  } = useContext(CurrentUserContext);
   const { handle } = useParams();
-  setProfileUrl(true)
-  const handleInfo = async () => {
-    try {
-      const response = await fetch(`/api/${handle}/profile`)
-        .then((data) => data.json())
-        .then((data) => data.profile);
-
-      setCurrentHandle(response);
-      console.log(response);
-    } catch (err) {
-      setStatus("error");
-    }
-  };
-
-  useEffect(() => {
-    if (handle) {
-      handleInfo();
-    }
-   
-    setStatus("idle");
-  }, [handle]);
+  setCurrentUserHandle(handle);
+  setProfileUrl(true);
 
   const handleFeed = (id) => {
     setHandleTweet(id);
-   
-      
-      history.push(`/tweet/${id}`);
-
+    history.push(`/tweet/${id}`);
   };
 
- 
   if (currentUser === "") {
     return <div>Loading</div>;
   }
@@ -55,32 +41,33 @@ const Profile = () => {
     return <div>Loading</div>;
   }
 
-  return currentHandle ? (
+  return currentUserData ? (
     <Wrapper>
       <div>
-        <Banner src={currentHandle.bannerSrc} />
-        <Avatar src={currentHandle.avatarSrc} />
+        <Banner src={currentUserData.bannerSrc} />
+        <Avatar src={currentUserData.avatarSrc} />
       </div>
       <ProfileInfo>
         <Handle>
-          <Span>{currentHandle.displayName}</Span>
-          {`@ ${currentHandle.handle}`}
+          <Span>{currentUserData.displayName}</Span>
+          {`@ ${currentUserData.handle}`}
         </Handle>
         <Date>
           <List>
-            <Location /> {currentHandle.location}{" "}
+            <Location /> {currentUserData.location}{" "}
           </List>
           <List>
-            <Calendar /> Joined {moment(currentHandle.joined).format("MM YYYY")}
+            <Calendar /> Joined{" "}
+            {moment(currentUserData.joined).format("MM YYYY")}
           </List>
         </Date>
         <Follow>
           <Item>
-            <Span>{currentHandle.numFollowers}</Span> Followers{" "}
+            <Span>{currentUserData.numFollowers}</Span> Followers{" "}
           </Item>
 
           <Item>
-            <Span>{currentHandle.numFollowing}</Span> Following{" "}
+            <Span>{currentUserData.numFollowing}</Span> Following{" "}
           </Item>
         </Follow>
       </ProfileInfo>
@@ -90,10 +77,10 @@ const Profile = () => {
         <MenuItems>Likes</MenuItems>
       </ProfileMenu>
       <Feed>
-        {homeFeed && (
+        {currentProfileFeed && (
           <SmallTweet
-          handleFeed={handleFeed}
-            tweetArray={Object.values(homeFeed)}
+            handleFeed={handleFeed}
+            tweetArray={Object.values(currentProfileFeed)}
             status={status}
             profileUrl={profileUrl}
             setProfileUrl={setProfileUrl}

@@ -12,7 +12,7 @@ import { BsBookmark } from "react-icons/bs";
 
 const SideBar = () => {
 
-  const { currentUser, currentUserHandle, setCurrentUserHandle } = useContext(CurrentUserContext);
+  const { currentUser, mainUserHandle, setCurrentUserHandle } = useContext(CurrentUserContext);
 
 
   return (
@@ -25,7 +25,7 @@ const SideBar = () => {
             <BiHomeAlt /> <Name> Home </Name>
           </ItemDiv>
         </Navig>
-       <Navig to={ `/profile/${currentUserHandle}`}>
+       <Navig to={ `/profile/${mainUserHandle}`}>
     
           <ItemDiv>
             <CgProfile />

@@ -1,16 +1,18 @@
 import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import { COLORS } from "../../constants";
+import { CurrentUserContext } from "../CurrentUserContext";
 import { FiShare as Share } from "react-icons/fi";
 import { AiOutlineRetweet as Retweet } from "react-icons/ai";
 import { HiOutlineHeart as Heart } from "react-icons/hi";
 import { FaRegComment as Comment } from "react-icons/fa";
-
-const TweetActions = () => {
+// {setCurrentTweet, currentTweet}
+const TweetActions = ({numRetweets, isRetweeted, numLikes, isLiked}) => {
+ 
 
   return (
     <Wrapper>
-      <Comment />
+      <Comment /> {numRetweets}
       <Retweet />
       <Heart />
       <Share />

@@ -1,26 +1,34 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-// import { CurrentUserContext } from "../CurrentUserContext";
+import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
 import moment from "moment";
 import { COLORS } from "../../constants";
 import TweetActions from "./TweetActions";
 
 const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
+  const [ value, setValue] = useState("");
+  // const [numRetweets, setNumRetweets] = useState();
+  const { currentTweet, setCurrentTweet, numRetweet, setStatus } = useContext(
+    CurrentUserContext
+  );
   const history = useHistory();
   const currentFocus = useRef();
   if (status === "loading") {
     return <div>Loading</div>;
   }
-
   const historyPath = history.location.pathname.includes("profile");
+
+
+
+
 
   return tweetArray.map((feed, feedId) => {
     return (
       <Wrapper
         id="wrapper"
         key={feedId}
-        value={feed.id}
+       setCurrentTweet= {setCurrentTweet(`${feed.id}`)}
         tabIndex="1"
         onClick={() => {
           handleFeed(`${feed.id}`);
@@ -36,7 +44,7 @@ const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
           <InfoDiv>
             <HandleDiv>
               <div
-              ref={ currentFocus}
+                ref={currentFocus}
                 tabIndex="1"
                 onClick={(e) => {
                   e.cancelBubble = true;
@@ -62,7 +70,7 @@ const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
                   }
                 }}
               >
-                {" "}
+             {feed.isRetweeted}
                 <ProfileLink>{feed.author.displayName} </ProfileLink>
               </div>
               <TextPale>{`@ ${feed.author.handle} `}</TextPale>
@@ -79,7 +87,12 @@ const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
             }
           })}
         </TweetPicWrapper>
-        <TweetActions />
+        <TweetActions
+    numRetweets= {feed.numRetweets}
+        isRetweeted= {feed.isRetweeted}
+        numLikes ={feed.numLikes}
+        isLiked={feed.isLiked}
+        />
       </Wrapper>
     );
   });

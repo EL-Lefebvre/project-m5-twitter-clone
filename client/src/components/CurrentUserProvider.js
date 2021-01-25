@@ -5,11 +5,14 @@ import { CurrentUserContext } from "./CurrentUserContext";
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [homeFeed, setHomeFeed] = useState();
+  const [mainUserHandle, setMainUserHandle] = useState();
   const [profileUrl, setProfileUrl] = useState(false);
-  const [singleTweetId, setSingleTweetId] = useState("");
-const [currentUserHandle, setCurrentUserHandle] = useState("");
+  const [numRetweet, setNumRetweet] = useState();
+  const [currentProfileFeed, setCurrentProfileFeed] =useState();
+  const [ currentUserData,setCurrentUserData] =useState()
+  const [currentTweet, setCurrentTweet] = useState("");
+  const [currentUserHandle, setCurrentUserHandle] = useState("");
   const [status, setStatus] = useState("loading");
-  //  const { tweetId } = useParams();
 
   // ProfileInfo of Current user (treasurymog)
   const profileInfo = async () => {
@@ -18,7 +21,7 @@ const [currentUserHandle, setCurrentUserHandle] = useState("");
         .then((data) => data.json())
         .then((data) => data.profile);
       setCurrentUser(response);
-      setCurrentUserHandle(response.handle)
+      setMainUserHandle(response.handle);
     } catch (err) {
       setStatus("error");
     }
@@ -62,6 +65,50 @@ const [currentUserHandle, setCurrentUserHandle] = useState("");
     }
   }, [homeFeed]);
 
+  //Retweet data for each Tweet
+  const handleProfileFeed = async () => {
+    try {
+      const response = await fetch(`/api/${currentUserHandle}/feed`)
+        .then((data) => data.json())
+        .then((data) => data.tweetsById);
+        setCurrentProfileFeed(response);
+   
+    } catch (err) {
+      setStatus("error");
+    }
+  };
+  useEffect(() => {
+    if (currentUserHandle) {
+      handleProfileFeed();
+    }
+   
+    setStatus("idle");
+  }, [currentUserHandle]);
+
+
+  // other
+  const handleInfo = async () => {
+    try {
+      const response = await fetch(`/api/${currentUserHandle}/profile`)
+        .then((data) => data.json())
+        .then((data) => data.profile);
+
+      setCurrentUserData(response);
+      console.log(response);
+    } catch (err) {
+      setStatus("error");
+    }
+  };
+
+  useEffect(() => {
+    if (currentUserHandle) {
+      handleInfo();
+    }
+   
+    setStatus("idle");
+  }, [currentUserHandle]);
+
+
   //Error message
   if (status === "error") {
     return <div>error</div>;
@@ -71,13 +118,20 @@ const [currentUserHandle, setCurrentUserHandle] = useState("");
     <CurrentUserContext.Provider
       value={{
         currentUser,
-        singleTweetId,
-        setSingleTweetId,
         setProfileUrl,
         profileUrl,
         status,
+        numRetweet,
+        setNumRetweet,
         setStatus,
-        homeFeed,currentUserHandle, setCurrentUserHandle
+        mainUserHandle,
+        currentUserData,
+        currentProfileFeed,
+        currentTweet,
+        setCurrentTweet,
+        homeFeed,
+        currentUserHandle,
+        setCurrentUserHandle,
       }}
     >
       {children}
