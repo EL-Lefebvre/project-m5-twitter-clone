@@ -1,5 +1,5 @@
-import React, { useEffect, useContext, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import React, {  useContext,  useRef } from "react";
+import {  useHistory } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import { COLORS } from "../../constants";
@@ -8,9 +8,9 @@ import TweetActions from "./TweetActions";
 
 const BigTweet = ({ singleTweetId }) => {
   const history = useHistory();
+  const currentFocus = useRef();
   const { setStatus, status } = useContext(CurrentUserContext);
 
- 
 
 
   if (status === "loading") {
@@ -26,15 +26,14 @@ const BigTweet = ({ singleTweetId }) => {
         <Tweet>
           <ProfilePic src={singleTweetId.author.avatarSrc} />
           <ProfileField
+          ref={currentFocus}
             tabIndex="1"
             onClick={(e) => {
               e.cancelBubble = true;
               if (e.stopPropagation) {
                 e.stopPropagation();
                history.replace(`/profile/${singleTweetId.author.handle}`);
-              //  history.push(`${author.handle}`);
-              //  history.location.pathname.replace("tweet", "profile")
-                  // history.push(`${author.handle}`);
+           
                 
               }
             }}
@@ -42,11 +41,10 @@ const BigTweet = ({ singleTweetId }) => {
               e.cancelBubble = true;
               if (e.stopPropagation) {
                 e.stopPropagation();
-
-                if (tweetPath) {
-                  history.createHref();
-                  history.replace(`profile/${singleTweetId.author.handle}`);
-                }
+               history.replace(`/profile/${singleTweetId.author.handle}`);
+           
+                
+                
               }
             }}
           >

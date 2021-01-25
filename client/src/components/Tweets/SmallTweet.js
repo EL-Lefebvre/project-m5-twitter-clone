@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
-// import { browserHistory } from "react-router"
+import React, { useRef } from "react";
 import { useHistory } from "react-router-dom";
-import { CurrentUserContext } from "../CurrentUserContext";
+// import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
 import moment from "moment";
 import { COLORS } from "../../constants";
@@ -9,13 +8,12 @@ import TweetActions from "./TweetActions";
 
 const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
   const history = useHistory();
-
+  const currentFocus = useRef();
   if (status === "loading") {
     return <div>Loading</div>;
   }
 
   const historyPath = history.location.pathname.includes("profile");
-
 
   return tweetArray.map((feed, feedId) => {
     return (
@@ -23,7 +21,7 @@ const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
         id="wrapper"
         key={feedId}
         value={feed.id}
-        tabIndex="0"
+        tabIndex="1"
         onClick={() => {
           handleFeed(`${feed.id}`);
         }}
@@ -38,6 +36,7 @@ const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
           <InfoDiv>
             <HandleDiv>
               <div
+              ref={ currentFocus}
                 tabIndex="1"
                 onClick={(e) => {
                   e.cancelBubble = true;
