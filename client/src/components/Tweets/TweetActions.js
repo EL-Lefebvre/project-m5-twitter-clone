@@ -2,8 +2,9 @@ import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import { COLORS } from "../../constants";
 import { CurrentUserContext } from "../CurrentUserContext";
+import Retweet from "./TweetIcons/Retweet";
 import { FiShare as Share } from "react-icons/fi";
-import { AiOutlineRetweet as Retweet } from "react-icons/ai";
+
 import { HiOutlineHeart as Heart } from "react-icons/hi";
 import { FaRegComment as Comment } from "react-icons/fa";
 // {setCurrentTweet, currentTweet}
@@ -12,8 +13,8 @@ const TweetActions = ({numRetweets, isRetweeted, numLikes, isLiked}) => {
 
   return (
     <Wrapper>
-      <Comment /> {numRetweets}
-      <Retweet />
+      <Comment /> 
+      <Retweet  numRetweets= {numRetweets} isRetweeted={isRetweeted} />
       <Heart />
       <Share />
     </Wrapper>
@@ -27,6 +28,9 @@ const Wrapper = styled.div`
   width: 100%;
   height: 40%;
   padding: 10px;
+  &.icon{
+    height:200px;
+  }
 `;
 
 export default TweetActions;

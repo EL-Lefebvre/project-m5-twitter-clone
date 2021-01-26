@@ -6,13 +6,12 @@ import moment from "moment";
 import { COLORS } from "../../constants";
 import TweetActions from "./TweetActions";
 
-const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
-  const [ value, setValue] = useState("");
-  // const [numRetweets, setNumRetweets] = useState();
-  const { currentTweet, setCurrentTweet, numRetweet, setStatus } = useContext(
-    CurrentUserContext
-  );
+const SmallTweet = ({ tweetArray, handleFeed, status, homeFeed }) => {
+  const { setCurrentTweet } = useContext(CurrentUserContext);
   const history = useHistory();
+  const [toggleValue, setToggleValue] = useState(false);
+  const [updatedArray, setUpdatedArray] = useState([]);
+  const newArray = [];
   const currentFocus = useRef();
   if (status === "loading") {
     return <div>Loading</div>;
@@ -21,81 +20,85 @@ const SmallTweet = ({ tweetArray, handleFeed, historyUrl, status }) => {
 
 
 
-
-
-  return tweetArray.map((feed, feedId) => {
-    return (
-      <Wrapper
-        id="wrapper"
-        key={feedId}
-       setCurrentTweet= {setCurrentTweet(`${feed.id}`)}
-        tabIndex="1"
-        onClick={() => {
-          handleFeed(`${feed.id}`);
-        }}
-        onKeyPress={() => {
-          handleFeed(`${feed.id}`);
-        }}
-      >
-        <Feed>
-          <AvatarDiv>
-            <ProfilePic src={feed.author.avatarSrc} />
-          </AvatarDiv>
-          <InfoDiv>
-            <HandleDiv>
-              <div
-                ref={currentFocus}
-                tabIndex="1"
-                onClick={(e) => {
-                  e.cancelBubble = true;
-                  if (e.stopPropagation) {
-                    e.stopPropagation();
-                    if (historyPath) {
-                      history.replace(`${feed.author.handle}`);
-                    } else {
-                      history.replace(`profile/${feed.author.handle}`);
+console.log(tweetArray)
+  return  (
+    tweetArray.map((feed, feedId) => {
+      return (
+        <Wrapper
+          id="wrapper"
+          key={feedId}
+          setCurrentTweet={setCurrentTweet(`${feed.id}`)}
+          tabIndex="1"
+          onClick={() => {
+            handleFeed(`${feed.id}`);
+          }}
+          onKeyPress={() => {
+            handleFeed(`${feed.id}`);
+          }}
+        >
+          <Feed>
+            <AvatarDiv>
+              <ProfilePic src={feed.author.avatarSrc} />
+            </AvatarDiv>
+            <InfoDiv>
+              <HandleDiv>
+                <div
+                  ref={currentFocus}
+                  tabIndex="1"
+                  onClick={(e) => {
+                    e.cancelBubble = true;
+                    if (e.stopPropagation) {
+                      e.stopPropagation();
+                      if (historyPath) {
+                        history.replace(`${feed.author.handle}`);
+                      } else {
+                        history.replace(`profile/${feed.author.handle}`);
+                      }
                     }
-                  }
-                }}
-                onKeyPress={(e) => {
-                  e.cancelBubble = true;
-                  if (e.stopPropagation) {
-                    e.stopPropagation();
+                  }}
+                  onKeyPress={(e) => {
+                    e.cancelBubble = true;
+                    if (e.stopPropagation) {
+                      e.stopPropagation();
 
-                    if (historyPath) {
-                      history.replace(`${feed.author.handle}`);
-                    } else {
-                      history.replace(`profile/${feed.author.handle}`);
+                      if (historyPath) {
+                        history.replace(`${feed.author.handle}`);
+                      } else {
+                        history.replace(`profile/${feed.author.handle}`);
+                      }
                     }
-                  }
-                }}
-              >
-             {feed.isRetweeted}
-                <ProfileLink>{feed.author.displayName} </ProfileLink>
-              </div>
-              <TextPale>{`@ ${feed.author.handle} `}</TextPale>
-              <TextPale> -{moment(feed.timestamp).format("MMM YYYY")}</TextPale>
-            </HandleDiv>
-            <Status>{feed.status} </Status>
-          </InfoDiv>
-        </Feed>
+                  }}
+                >
+                  {feed.isRetweeted}
+                  <ProfileLink>{feed.author.displayName} </ProfileLink>
+                </div>
+                <TextPale>{`@ ${feed.author.handle} `}</TextPale>
+                <TextPale>
+                  {" "}
+                  -{moment(feed.timestamp).format("MMM YYYY")}
+                </TextPale>
+              </HandleDiv>
+              <Status>{feed.status} </Status>
+            </InfoDiv>
+          </Feed>
 
-        <TweetPicWrapper>
-          {feed.media.map((med) => {
-            if (med.url !== "") {
-              return <TweetPic src={med.url} />;
-            }
-          })}
-        </TweetPicWrapper>
-        <TweetActions
-    numRetweets= {feed.numRetweets}
-        isRetweeted= {feed.isRetweeted}
-        numLikes ={feed.numLikes}
-        isLiked={feed.isLiked}
-        />
-      </Wrapper>
-    );
-  });
+          <TweetPicWrapper>
+            {feed.media.map((med) => {
+              if (med.url !== "") {
+                return <TweetPic src={med.url} />;
+              }
+            })}
+          </TweetPicWrapper>
+          <TweetActions
+            numRetweets={feed.numRetweets}
+            isRetweeted={feed.isRetweeted}
+            numLikes={feed.numLikes}
+            isLiked={feed.isLiked}
+          />
+        </Wrapper>
+      );
+    })
+  ) 
 };
 
 const Wrapper = styled.div`
@@ -125,7 +128,7 @@ const HandleDiv = styled.div`
 `;
 const Status = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 const TweetPicWrapper = styled.div`
   display: flex;

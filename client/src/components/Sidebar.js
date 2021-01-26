@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext } from "react";
 import Logo from "../logo";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
@@ -12,7 +11,7 @@ import { BsBookmark } from "react-icons/bs";
 
 const SideBar = () => {
 
-  const { currentUser, mainUserHandle, setCurrentUserHandle } = useContext(CurrentUserContext);
+  const { mainUserHandle } = useContext(CurrentUserContext);
 
 
   return (
