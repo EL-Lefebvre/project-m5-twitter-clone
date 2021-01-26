@@ -21,26 +21,26 @@ const SideBar = () => {
       <MainMenu>
         <Navig to="/">
           <ItemDiv>
-            <BiHomeAlt /> <Name> Home </Name>
+            <BiHomeAlt size={20} /> <Name> Home </Name>
           </ItemDiv>
         </Navig>
        <Navig to={ `/profile/${mainUserHandle}`}>
     
           <ItemDiv>
-            <CgProfile />
+            <CgProfile size={20} />
             <Name>Profile </Name>
           </ItemDiv>
         </Navig>
         <Navig to="/notifications">
           <ItemDiv>
-            <Notif />
+            <Notif size={25} />
             <Name> Notifications </Name>
           </ItemDiv>
         </Navig>
         <Navig to="/bookmarks">
           <ItemDiv>
             {" "}
-            <BsBookmark />
+            <BsBookmark size={20}  />
             <Name>Bookmarks </Name>
           </ItemDiv>
         </Navig>
@@ -60,7 +60,7 @@ const Menu = styled.div`
 const MainMenu = styled.div`
   list-style-type: none;
   display: flex;
-
+  align-items:center;
   flex-direction: column;
   justify-content: center;
   text-align: center;
@@ -68,10 +68,13 @@ const MainMenu = styled.div`
 const ItemDiv = styled.div`
   display: flex;
   align-items: center;
+ 
 `;
 
 const Button = styled.button`
   background-color: ${COLORS.primary};
+  font-weight:bolder;
+  font-size:100%;
   color: white;
   border-radius: 10px;
   width: 100px;
@@ -81,10 +84,13 @@ const Button = styled.button`
 `;
 const Navig = styled(NavLink)`
   text-decoration: none;
+  align-items:center;
   font-weight: bolder;
   width: 150px;
   color: black;
   padding-left: 15px;
+  
+  
 
   &:hover {
     color: ${COLORS.primary};
@@ -92,8 +98,9 @@ const Navig = styled(NavLink)`
     border-radius: 50px;
   }
 `;
-const Name = styled.h5`
+const Name = styled.h4`
   padding-left: 10px;
+  
 `;
-const Home = styled(BiHomeAlt)``;
+
 export default SideBar;

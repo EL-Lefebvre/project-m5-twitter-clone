@@ -21,9 +21,9 @@ const HomeFeed = () => {
   let history = useHistory();
  
 
-  if (status === "error") {
-    return <Error />;
-  }
+if(!homeFeed){
+  setStatus("loading")
+}
 
   console.log(homeFeed);
 
@@ -80,20 +80,21 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5px;
+ 
 `;
 
 const TweetField = styled.div`
-  margin: 20px;
-  border-radius: 10px;
+
   width: 100%;
+   border-bottom: 10px lightgray solid;
+   border-spacing:none;
 `;
 
 const Title = styled.h4``;
 
 const Scroll = styled.div`
   margin-top: 20px;
-  border-top: 10px lightgray solid;
+ 
   margin: 0px -17px 0px -17px;
   width: 100%;
 `;

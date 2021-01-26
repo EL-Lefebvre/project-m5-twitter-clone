@@ -13,10 +13,8 @@ const Profile = () => {
   const [boolUser, setBoolUser] = useState(false);
   const [handleTweet, setHandleTweet] = useState();
 
-  // const [currentHandle, setCurrentHandle] = useState("");
   const {
     currentUser,
-    homeFeed,
     status,
     setStatus,
     profileUrl,
@@ -25,21 +23,19 @@ const Profile = () => {
     setCurrentUserHandle,
     currentUserData,
   } = useContext(CurrentUserContext);
+
   const { handle } = useParams();
   setCurrentUserHandle(handle);
   setProfileUrl(true);
+
+  if (!currentUser) {
+    setStatus("loading");
+  }
 
   const handleFeed = (id) => {
     setHandleTweet(id);
     history.push(`/tweet/${id}`);
   };
-
-  if (currentUser === "") {
-    return <div>Loading</div>;
-  }
-  if (status === "loading") {
-    return <div>Loading</div>;
-  }
 
   return currentUserData ? (
     <Wrapper>
@@ -49,8 +45,8 @@ const Profile = () => {
       </div>
       <ProfileInfo>
         <Handle>
-          <Span>{currentUserData.displayName}</Span>
-          {`@ ${currentUserData.handle}`}
+          <DisplayName>{currentUserData.displayName}</DisplayName>
+         <p>{`@ ${currentUserData.handle}`}</p> 
         </Handle>
         <Date>
           <List>
@@ -103,7 +99,8 @@ const Wrapper = styled.div`
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  height: 200px;
+ 
+
 `;
 const ProfileMenu = styled.div`
   display: flex;
@@ -115,17 +112,21 @@ const Date = styled.div`
 const Handle = styled.div`
   display: flex;
   flex-direction: column;
+  margin-left:10px;
+  margin-bottom:15px;
 `;
 const Follow = styled.div`
   display: flex;
-  padding: 10px;
-  margin: 10px;
+
+
+ 
 `;
 const Span = styled.span`
   font-weight: bolder;
   padding-right: 5px;
 `;
-const Feed = styled.div``;
+const Feed = styled.div`
+margin-top:10px;`;
 const Tweet = styled.div``;
 const Banner = styled.img`
   width: 100%;
@@ -133,12 +134,16 @@ const Banner = styled.img`
 `;
 const Avatar = styled.img`
   border-radius: 100px;
-  height: 100px;
-  width: 100px;
-  margin-top: -40px;
+  height: 120px;
+  width: 120px;
+  margin-top: -60px;
   z-index: 2;
+  margin-left:20px;
 
   border: 5px solid white;
+`;
+const DisplayName = styled.h3`
+text-decoration:underline;
 `;
 const List = styled.h4`
   padding: 5px;

@@ -8,14 +8,13 @@ const TweetDetails = () => {
   console.log(tweetId);
   const [singleTweetId, setSingleTweetId] = useState("");
   const {
-    homeFeed,
     setStatus,
     status,
-    currentTweet,
-    setCurrentTweet,
     numRetweet,
     setNumRetweet,
   } = useContext(CurrentUserContext);
+
+
 
   const getSingleTweet = async () => {
     try {
@@ -32,18 +31,19 @@ const TweetDetails = () => {
     if (tweetId) {
       getSingleTweet();
     }
+
   }, [tweetId]);
 
+
+    
+
+ 
   fetch(`/api/tweet/${tweetId}/retweet`)
     .then((data) => data.json())
     .then((data) => data.tweet)
     .then((data) => setNumRetweet(data));
-console.log(numRetweet)
-  console.log(singleTweetId);
-  if (status === "loading") {
-    return <div>Loading</div>;
-  }
 
+ 
   return (
     <div>
       <BigTweet singleTweetId={singleTweetId} />

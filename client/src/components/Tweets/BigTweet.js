@@ -1,4 +1,4 @@
-import React, {  useContext,  useRef } from "react";
+import React, {  useContext,  useEffect,  useRef } from "react";
 import {  useHistory } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
@@ -12,10 +12,18 @@ const BigTweet = ({ singleTweetId }) => {
   const { setStatus, status } = useContext(CurrentUserContext);
 
 
-
-  if (status === "loading") {
-    return <div>Loading</div>;
+useEffect(()=>{
+  if(!singleTweetId)  {
+  
+    setStatus("loading");
   }
+  if(singleTweetId){
+    setStatus("idle")
+  }
+
+},[singleTweetId])
+
+    
   console.log(history.location)
 
   const historyPath = history.location.pathname.includes("profile");

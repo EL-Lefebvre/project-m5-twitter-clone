@@ -13,10 +13,10 @@ const TweetActions = ({numRetweets, isRetweeted, numLikes, isLiked}) => {
 
   return (
     <Wrapper>
-      <Comment /> 
+      <Comment size={20} /> 
       <Retweet  numRetweets= {numRetweets} isRetweeted={isRetweeted} />
-      <Heart />
-      <Share />
+      <Heart size={20}/>
+      <Share size={20}/>
     </Wrapper>
   );
 };

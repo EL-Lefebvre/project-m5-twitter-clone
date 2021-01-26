@@ -12,7 +12,6 @@ const TextBox = ({
   colorChange,
   setColorChange,
   addNewTweet,
-
 }) => {
   const { mainUserHandle, currentUser } = useContext(CurrentUserContext);
   const [toggle, setToggle] = useState(false);
@@ -61,7 +60,7 @@ const TextBox = ({
             handle: `${currentUser.handle}`,
             displayName: `${currentUser.displayName}`,
             avatarSrc: `${currentUser.avatarSrc}`,
-          } ,
+          },
           isLiked: false,
           isRetweeted: false,
           numLikes: 0,
@@ -72,7 +71,7 @@ const TextBox = ({
         addNewTweet(newTweetDetails);
       });
   };
- 
+
   return (
     <Wrapper>
       <TextDiv>
@@ -87,7 +86,9 @@ const TextBox = ({
       </TextDiv>
       <SubmitBar>
         <Count style={{ color: `${colorChange}` }}>{wordCount}</Count>
-        <Button type="submit" onClick={handleClick} setValue={setValue}>Meow</Button>
+        <Button type="submit" onClick={handleClick} setValue={setValue}>
+          Meow
+        </Button>
       </SubmitBar>
     </Wrapper>
   );
@@ -111,6 +112,7 @@ const TextArea = styled.textarea`
 `;
 const SubmitBar = styled.div`
   display: flex;
+ align-items:center;
   margin: 10px;
   width: 95%;
   height: 50px;
@@ -118,19 +120,21 @@ const SubmitBar = styled.div`
   justify-content: flex-end;
 `;
 
-const Count = styled.h5`
-  color: lightgray;
-  text-shadow: lightslategray 1px 0 0.5px;
-  margin: 10px;
-  top: 0px;
+const Count = styled.h4`
+  
+  text-shadow: white 1px 1px;
+  margin-right: 10px;
+ 
 `;
 const Button = styled.button`
   background-color: ${COLORS.primary};
+  font-weight: bolder;
+  font-size: 100%;
   color: white;
   border-radius: 10px;
   width: 100px;
-  height: 20px;
+  height: 30px;
   border: none;
-  margin-top: 10px;
+
 `;
 export default TextBox;

@@ -6,7 +6,7 @@ const Retweet = ({numRetweets, isRetweeted}) => {
 
     return (
       <Wrapper>
-           <RetweetIcon />
+           <RetweetIcon size={20} />
        {numRetweets}
        
     

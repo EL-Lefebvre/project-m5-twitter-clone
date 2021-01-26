@@ -112,11 +112,9 @@ export const CurrentUserProvider = ({ children }) => {
   }, [currentUserHandle]);
 
 
-  //Error message
+ 
 
-  if (status === "error") {
-    return <Error />;
-  }
+
 
   return (
     <CurrentUserContext.Provider

@@ -9,6 +9,7 @@ import {
 import "./App.css";
 import HomeFeed from "./components/Home/HomeFeed";
 import Error from "./components/Error";
+import Loading from "./components/Loading"
 import GlobalStyles from "./GlobalStyles";
 import Bookmarks from "./components/Bookmarks";
 import Notifications from "./components/Notifications";
@@ -22,11 +23,14 @@ function App() {
   //Error message
 
   return (
+  
     <Wrapper className="App">
       <Router>
         <SideBar />
         <Main>
-          <Switch>
+            {
+      (status === "error") ? (<Error />) : status === "loading" ? (<Loading />):
+         ( <Switch>
             <Route exact path="/" exact={true}>
               {" "}
               <HomeFeed />{" "}
@@ -50,7 +54,8 @@ function App() {
             {/* <Route exact path="/error">
               <Error />
             </Route> */}
-          </Switch>
+          </Switch>)
+}
         </Main>
         <GlobalStyles />
       </Router>
