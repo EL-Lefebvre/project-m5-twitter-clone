@@ -6,7 +6,6 @@ import Redirect from "../Redirect";
 
 const TweetDetails = () => {
   const { tweetId } = useParams();
-  console.log(tweetId);
   const [singleTweetId, setSingleTweetId] = useState("");
   const { setStatus, status, numRetweet, setNumRetweet } = useContext(
     CurrentUserContext

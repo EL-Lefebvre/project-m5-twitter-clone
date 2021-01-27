@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import styled from "styled-components";
 import { COLORS } from "../../constants";
 import { CurrentUserContext } from "../CurrentUserContext";
-import Retweet from "./TweetIcons/Retweet";
+import RetweetMain from "../Tweets/TweetIcons/Retweet/RetweetMain";
 import Heart from "./TweetIcons/HeartButton/Heart";
 import { FiShare as Share } from "react-icons/fi";
 import Actions from "./Actions";
@@ -10,12 +10,15 @@ import { FaRegComment as Comment } from "react-icons/fa";
 // {setCurrentTweet, currentTweet}
 const TweetActions = ({ numRetweets, isRetweeted, numLikes, isLiked }) => {
   const [toggleLike, setToggleLike] = useState(isLiked);
+  const [toggleRetweet, setToggleRetweet] = useState(isRetweeted);
   const [colorChange, setColorChange] = useState("black");
   const [updatedNumLikes, setUpdatedNumLikes] = useState(numLikes);
+  const [updatedNumRetweet, setUpdatedNumRetweet] = useState(numRetweets);
 
   const handleClickLike = () => {
     setToggleLike(!toggleLike);
   };
+  //Like Handle
   useEffect(() => {
     if (toggleLike) {
       setUpdatedNumLikes(numLikes + 1);
@@ -24,23 +27,50 @@ const TweetActions = ({ numRetweets, isRetweeted, numLikes, isLiked }) => {
     }
   }, [toggleLike]);
 
-  console.log(toggleLike);
+  // Retweet Handle
+  const handleClickRetweet = () => {
+    setToggleRetweet(!toggleRetweet);
+  };
+  useEffect(() => {
+    if (toggleRetweet) {
+      setUpdatedNumRetweet(updatedNumRetweet + 1);
+    } else if (!toggleRetweet) {
+      setUpdatedNumRetweet(numRetweets);
+    }
+    return numRetweets;
+  }, [toggleRetweet]);
+ 
+
   return (
     <Wrapper>
       <Comment size={20} />
-      <Retweet numRetweets={numRetweets} isRetweeted={isRetweeted} />
+      <ActionDiv>
+        <Actions
+          color="rgb(23, 191, 99)"
+          onClick={handleClickRetweet}
+          size={40}
+        >
+          <RetweetMain
+            color="rgb(23, 191, 99)"
+            size={35}
+            toggleRetweet={toggleRetweet}
+            updatedNumLikes={updatedNumLikes}
+          />
+        </Actions>
+        <numUpdate>{updatedNumRetweet}</numUpdate>
+      </ActionDiv>
       <ActionDiv>
         <Actions color="rgb(224, 36, 94)" onClick={handleClickLike} size={40}>
           <Heart
             color="rgb(224, 36, 94)"
             size={35}
             toggleLike={toggleLike}
-            updatedNumLikes={updatedNumLikes}
+            updatedNumRetweet={updatedNumRetweet}
           />
         </Actions>
-        <numLike>{updatedNumLikes}</numLike>
+        <numUpdate>{updatedNumLikes}</numUpdate>
       </ActionDiv>
-      
+
       <Share size={20} />
     </Wrapper>
   );
@@ -59,9 +89,9 @@ const Wrapper = styled.div`
 `;
 
 const ActionDiv = styled.div`
-display:flex;
-align-items:center;
+  display: flex;
+  align-items: center;
 `;
-const numLike = styled.h5``;
+const numUpdate = styled.h5``;
 
 export default TweetActions;

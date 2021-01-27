@@ -96,7 +96,7 @@ export const CurrentUserProvider = ({ children }) => {
         .then((data) => data.profile);
 
       setCurrentUserData(response);
-      console.log(response);
+  ;
     } catch (err) {
       setStatus("error");
     }

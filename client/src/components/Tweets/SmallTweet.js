@@ -16,7 +16,6 @@ const SmallTweet = ({ tweetArray, handleFeed, status, homeFeed }) => {
   }
   const historyPath = history.location.pathname.includes("profile");
 
-  console.log(tweetArray);
   return tweetArray.map((feed, feedId) => {
     return (
       <Wrapper>
@@ -117,15 +116,16 @@ const HandleDiv = styled.div`
 `;
 const ProfileRedirect = styled.div`
   display: flex;
-  align-items: center;`;
+  align-items: center;
+`;
 const Status = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   display: inline-block;
   overflow-wrap: break-word;
-  max-width: 450px;
-  padding-left: 10px;
+  max-width: 600px;
+  padding-left: 20px;
 `;
 const TweetPicWrapper = styled.div`
   display: flex;
