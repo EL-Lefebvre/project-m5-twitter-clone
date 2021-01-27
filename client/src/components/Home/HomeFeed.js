@@ -88,7 +88,9 @@ const TweetField = styled.div`
    border-spacing:none;
 `;
 
-const Title = styled.h4``;
+const Title = styled.h4`
+margin-left:20px;
+`;
 
 const Scroll = styled.div`
   margin-top: 20px;

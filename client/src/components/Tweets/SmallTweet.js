@@ -64,9 +64,9 @@ const SmallTweet = ({ tweetArray, handleFeed, status, homeFeed }) => {
                 <ProfilePic src={feed.author.avatarSrc} />
               </AvatarDiv>
               <ProfileLink>{feed.author.displayName} </ProfileLink>
-              <TextPale>{`@ ${feed.author.handle} `}</TextPale>
-              <TextPale> -{moment(feed.timestamp).format("MMM YYYY")}</TextPale>
             </ProfileRedirect>
+            <TextPale>{`@ ${feed.author.handle} `}</TextPale>
+            <TextPale> -{moment(feed.timestamp).format("MMM YYYY")}</TextPale>
           </HandleDiv>
           <Status>{feed.status} </Status>
 
@@ -111,12 +111,13 @@ const AvatarDiv = styled.div`
   padding: 10px;
 `;
 
-const HandleDiv = styled.div``;
-const ProfileRedirect = styled.div`
+const HandleDiv = styled.div`
   display: flex;
   align-items: center;
-
 `;
+const ProfileRedirect = styled.div`
+  display: flex;
+  align-items: center;`;
 const Status = styled.div`
   display: flex;
   flex-wrap: wrap;

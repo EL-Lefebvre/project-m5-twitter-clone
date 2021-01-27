@@ -24,14 +24,6 @@ const TweetDetails = () => {
 
 
 
-  useEffect(() => {
-    if (singleTweetId !== "") {
-      setStatus("idle");
-    } else {
-   
-      setStatus("loading");
-    }
-  }, [status]);
 
   return (
     <Redirect status={status}>
