@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import styled from "styled-components";
-
+import Redirect from "../Redirect";
 import { CurrentUserContext } from "../CurrentUserContext";
 import { useHistory } from "react-router-dom";
 import Error from "../Error";
@@ -9,10 +9,10 @@ import TextBox from "./TextBox";
 
 const HomeFeed = () => {
   const [historyUrl, setHistoryUrl] = useState();
-  const [wordCount, setWordCount] = useState(281);
+
   const [handleTweet, setHandleTweet] = useState("");
-  const [colorChange, setColorChange] = useState("lightgray");
-  const [charCount, setCharCount] = useState(0);
+
+
   const [newTweet, setNewTweet] = useState(null);
   const [dataTweet, setDataTweet] = useState([]);
   const { status, setStatus, homeFeed, setHomeFeed } = useContext(
@@ -21,11 +21,11 @@ const HomeFeed = () => {
   let history = useHistory();
  
 
-if(!homeFeed){
-  setStatus("loading")
+if(homeFeed){
+  setStatus("idle")
 }
 
-  console.log(homeFeed);
+
 
   const handleFeed = (id) => {
     setHandleTweet(id);
@@ -41,21 +41,17 @@ setHomeFeed([{...tweet}, ...homeFeed])
   }
 
   return (
+  
     <Wrapper>
       <TweetField>
         <Title>Home</Title>
         <TextBox
         addNewTweet={addNewTweet}
-          wordCount={wordCount}
-          setWordCount={setWordCount}
-          charCount={charCount}
-          setCharCount={setCharCount}
-          colorChange={colorChange}
-          setColorChange={setColorChange}
-          dataTweet={dataTweet}
+     
         />
       </TweetField>
       <Scroll>
+      <Redirect status={status} >
         {homeFeed &&
          
             <SmallTweet
@@ -67,8 +63,10 @@ setHomeFeed([{...tweet}, ...homeFeed])
               status={status}
             />
         }
+         </Redirect>
       </Scroll>
     </Wrapper>
+   
   );
 };
 
@@ -94,9 +92,10 @@ const Title = styled.h4``;
 
 const Scroll = styled.div`
   margin-top: 20px;
- 
+  box-sizing: border-box;
   margin: 0px -17px 0px -17px;
-  width: 100%;
+max-width:640px;
+
 `;
 
 export default HomeFeed;

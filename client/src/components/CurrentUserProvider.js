@@ -38,7 +38,10 @@ export const CurrentUserProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (currentUser) {
+    if (!currentUser) {
+      setStatus("loading");
+    }
+    else {
       setStatus("idle");
     }
   }, [currentUser]);
@@ -68,6 +71,9 @@ export const CurrentUserProvider = ({ children }) => {
     if (homeFeed) {
       setStatus("idle");
     }
+    else {
+      setStatus("loading")
+    }
   }, [homeFeed]);
 
   //Fetch tweets for each handle on their profile
@@ -80,14 +86,7 @@ export const CurrentUserProvider = ({ children }) => {
     } catch (err) {
       setStatus("error");
     }
-  };
-  useEffect(() => {
-    if (currentUserHandle) {
-      handleProfileFeed();
-    }
-
-    setStatus("idle");
-  }, [currentUserHandle]);
+  }
 
   // Fetch profile by handle
   const handleInfo = async () => {
@@ -103,13 +102,16 @@ export const CurrentUserProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    if (currentUserHandle) {
-      handleInfo();
-    }
+useEffect(() => {
+  if (!currentUserHandle) {
+    setStatus("loading");
+  }
+     handleInfo();
+  handleProfileFeed();
+  setStatus("idle");
+}, [currentUserHandle]);
 
-    setStatus("idle");
-  }, [currentUserHandle]);
+
 
 
  

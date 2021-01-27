@@ -2,52 +2,43 @@ import React, { useEffect, useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CurrentUserContext } from "../CurrentUserContext";
 import BigTweet from "./BigTweet";
+import Redirect from "../Redirect";
 
 const TweetDetails = () => {
   const { tweetId } = useParams();
   console.log(tweetId);
   const [singleTweetId, setSingleTweetId] = useState("");
-  const {
-    setStatus,
-    status,
-    numRetweet,
-    setNumRetweet,
-  } = useContext(CurrentUserContext);
-
-
-
-  const getSingleTweet = async () => {
-    try {
-      const fetched = await fetch(`/api/tweet/${tweetId}`)
-        .then((data) => data.json())
-        .then((data) => data.tweet);
-      setSingleTweetId(fetched);
-    } catch (err) {
-      console.log("Error 404");
-    }
-  };
+  const { setStatus, status, numRetweet, setNumRetweet } = useContext(
+    CurrentUserContext
+  );
 
   useEffect(() => {
-    if (tweetId) {
-      getSingleTweet();
-    }
-
+    fetch(`/api/tweet/${tweetId}`)
+      .then((data) => data.json())
+      .then((data) => data.tweet)
+      .then((res) => {
+        setSingleTweetId(res);
+        setStatus("idle");
+      });
   }, [tweetId]);
 
 
-    
 
- 
-  fetch(`/api/tweet/${tweetId}/retweet`)
-    .then((data) => data.json())
-    .then((data) => data.tweet)
-    .then((data) => setNumRetweet(data));
+  useEffect(() => {
+    if (singleTweetId !== "") {
+      setStatus("idle");
+    } else {
+   
+      setStatus("loading");
+    }
+  }, [status]);
 
- 
   return (
-    <div>
-      <BigTweet singleTweetId={singleTweetId} />
-    </div>
+    <Redirect status={status}>
+      <div>
+        <BigTweet singleTweetId={singleTweetId} />
+      </div>
+    </Redirect>
   );
 };
 

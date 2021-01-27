@@ -8,11 +8,11 @@ import Loading from "./Loading";
 const Redirect = ({children, status, error})=> {
     return (
         <Wrapper>
-            <Sidebar/>
+           
             {status==="error" 
             ? <Error />
             : status==="loading" 
-            ? <MainPage><Loading/></MainPage> 
+            ? <Loading/>
             : (
                 <MainPage>
                     {children}
@@ -32,7 +32,7 @@ justify-content:center;
 const MainPage = styled.div`
 display:flex;
 flex-direction:column;
-width: ${SIZES.mainPageSize};
+
 `;
 
 export default Redirect; 

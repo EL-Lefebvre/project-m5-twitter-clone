@@ -1,10 +1,11 @@
-import React, {  useContext,  useEffect,  useRef } from "react";
-import {  useHistory } from "react-router-dom";
+import React, { useContext, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import { COLORS } from "../../constants";
 import { CurrentUserContext } from "../CurrentUserContext";
 import TweetActions from "./TweetActions";
+
 
 const BigTweet = ({ singleTweetId }) => {
   const history = useHistory();
@@ -12,70 +13,54 @@ const BigTweet = ({ singleTweetId }) => {
   const { setStatus, status } = useContext(CurrentUserContext);
 
 
-useEffect(()=>{
-  if(!singleTweetId)  {
-  
-    setStatus("loading");
-  }
-  if(singleTweetId){
-    setStatus("idle")
-  }
 
-},[singleTweetId])
 
-    
-  console.log(history.location)
-
-  const historyPath = history.location.pathname.includes("profile");
-  const tweetPath = history.location.pathname.includes("tweet");
+ 
   return (
     singleTweetId && (
-      <Wrapper key={singleTweetId.id}>
-        <Tweet>
-          <ProfilePic src={singleTweetId.author.avatarSrc} />
-          <ProfileField
-          ref={currentFocus}
-            tabIndex="1"
-            onClick={(e) => {
-              e.cancelBubble = true;
-              if (e.stopPropagation) {
-                e.stopPropagation();
-               history.replace(`/profile/${singleTweetId.author.handle}`);
-           
-                
+  
+        <Wrapper key={singleTweetId.id}>
+          <Tweet>
+            <ProfilePic src={singleTweetId.author.avatarSrc} />
+            <ProfileField
+              ref={currentFocus}
+              tabIndex="1"
+              onClick={(e) => {
+                e.cancelBubble = true;
+                if (e.stopPropagation) {
+                  e.stopPropagation();
+                  history.replace(`/profile/${singleTweetId.author.handle}`);
+                }
+              }}
+              onKeyPress={(e) => {
+                e.cancelBubble = true;
+                if (e.stopPropagation) {
+                  e.stopPropagation();
+                  history.replace(`/profile/${singleTweetId.author.handle}`);
+                }
+              }}
+            >
+              <ProfileLink>{singleTweetId.author.displayName} </ProfileLink>
+              <TextPale>{`@ ${singleTweetId.author.handle} `}</TextPale>
+            </ProfileField>
+          </Tweet>
+          {singleTweetId.status}
+          <TweetPicWrapper>
+            {singleTweetId.media.map((med) => {
+              if (med.url !== "") {
+                return <TweetPic src={med.url} />;
               }
-            }}
-            onKeyPress={(e) => {
-              e.cancelBubble = true;
-              if (e.stopPropagation) {
-                e.stopPropagation();
-               history.replace(`/profile/${singleTweetId.author.handle}`);
-           
-                
-                
-              }
-            }}
-          >
-            <ProfileLink>{singleTweetId.author.displayName} </ProfileLink>
-            <TextPale>{`@ ${singleTweetId.author.handle} `}</TextPale>
-          </ProfileField>
-        </Tweet>
-        {singleTweetId.status}
-        <TweetPicWrapper>
-          {singleTweetId.media.map((med) => {
-            if (med.url !== "") {
-              return <TweetPic src={med.url} />;
-            }
-          })}
-        </TweetPicWrapper>
-        <TextPale>
-          {" "}
-          {`${moment(singleTweetId.timestamp).format(
-            "hh:mm A, MMM Do YYYY"
-          )} - Critter App`}
-        </TextPale>
-        <TweetActions />
-      </Wrapper>
+            })}
+          </TweetPicWrapper>
+          <TextPale>
+            {" "}
+            {`${moment(singleTweetId.timestamp).format(
+              "hh:mm A, MMM Do YYYY"
+            )} - Critter App`}
+          </TextPale>
+          <TweetActions />
+        </Wrapper>
+    
     )
   );
 };

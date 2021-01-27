@@ -4,18 +4,13 @@ import { COLORS } from "../../constants";
 import { CurrentUserContext } from "../CurrentUserContext";
 const MAX_lENGTH = 280;
 
-const TextBox = ({
-  wordCount,
-  setWordCount,
-  charCount,
-  setCharCount,
-  colorChange,
-  setColorChange,
-  addNewTweet,
-}) => {
+const TextBox = ({ addNewTweet }) => {
   const { mainUserHandle, currentUser } = useContext(CurrentUserContext);
   const [toggle, setToggle] = useState(false);
   const [value, setValue] = useState("");
+  const [wordCount, setWordCount] = useState(280);
+  const [charCount, setCharCount] = useState(0);
+  const [colorChange, setColorChange] = useState("lightgray");
 
   const handleToggle = (e) => {
     if (e.key === "Backspace") {
@@ -29,17 +24,15 @@ const TextBox = ({
   };
 
   useEffect(() => {
-    if (!toggle) {
-      setWordCount(wordCount - 1);
-    } else {
-      setWordCount(wordCount + 1);
-    }
-
-    if (wordCount <= 55 && wordCount >= 0) {
-      setColorChange("#fdd501");
-    } else if (wordCount <= 0) {
+    if ((280 - [charCount]) <= 0) {
       setColorChange("red");
     }
+    else  if((280 - [charCount]) <= 55)  {
+      setColorChange("#fdd501");
+    } 
+  else{
+    setColorChange("lightgray");
+  }
   }, [charCount]);
 
   const handleClick = (ev) => {
@@ -85,7 +78,9 @@ const TextBox = ({
         />
       </TextDiv>
       <SubmitBar>
-        <Count style={{ color: `${colorChange}` }}>{wordCount}</Count>
+        <Count style={{ color: `${colorChange}` }}>
+          {wordCount - [charCount]}
+        </Count>
         <Button type="submit" onClick={handleClick} setValue={setValue}>
           Meow
         </Button>
@@ -112,7 +107,7 @@ const TextArea = styled.textarea`
 `;
 const SubmitBar = styled.div`
   display: flex;
- align-items:center;
+  align-items: center;
   margin: 10px;
   width: 95%;
   height: 50px;
@@ -121,13 +116,11 @@ const SubmitBar = styled.div`
 `;
 
 const Count = styled.h4`
-  
   text-shadow: white 1px 1px;
   margin-right: 10px;
- 
 `;
 const Button = styled.button`
-  background-color: ${COLORS.primary};
+  background-color: ${COLORS.lightPurple};
   font-weight: bolder;
   font-size: 100%;
   color: white;
@@ -135,6 +128,5 @@ const Button = styled.button`
   width: 100px;
   height: 30px;
   border: none;
-
 `;
 export default TextBox;

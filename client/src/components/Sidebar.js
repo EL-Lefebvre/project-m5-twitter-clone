@@ -10,9 +10,7 @@ import { CgProfile } from "react-icons/cg";
 import { BsBookmark } from "react-icons/bs";
 
 const SideBar = () => {
-
   const { mainUserHandle } = useContext(CurrentUserContext);
-
 
   return (
     <Menu>
@@ -24,8 +22,7 @@ const SideBar = () => {
             <BiHomeAlt size={20} /> <Name> Home </Name>
           </ItemDiv>
         </Navig>
-       <Navig to={ `/profile/${mainUserHandle}`}>
-    
+        <Navig to={`/profile/${mainUserHandle}`}>
           <ItemDiv>
             <CgProfile size={20} />
             <Name>Profile </Name>
@@ -40,7 +37,7 @@ const SideBar = () => {
         <Navig to="/bookmarks">
           <ItemDiv>
             {" "}
-            <BsBookmark size={20}  />
+            <BsBookmark size={20} />
             <Name>Bookmarks </Name>
           </ItemDiv>
         </Navig>
@@ -60,7 +57,7 @@ const Menu = styled.div`
 const MainMenu = styled.div`
   list-style-type: none;
   display: flex;
-  align-items:center;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
   text-align: center;
@@ -68,13 +65,12 @@ const MainMenu = styled.div`
 const ItemDiv = styled.div`
   display: flex;
   align-items: center;
- 
 `;
 
 const Button = styled.button`
-  background-color: ${COLORS.primary};
-  font-weight:bolder;
-  font-size:100%;
+  background-color: ${COLORS.lightPurple};
+  font-weight: bolder;
+  font-size: 100%;
   color: white;
   border-radius: 10px;
   width: 100px;
@@ -84,13 +80,11 @@ const Button = styled.button`
 `;
 const Navig = styled(NavLink)`
   text-decoration: none;
-  align-items:center;
+  align-items: center;
   font-weight: bolder;
   width: 150px;
   color: black;
   padding-left: 15px;
-  
-  
 
   &:hover {
     color: ${COLORS.primary};
@@ -100,7 +94,6 @@ const Navig = styled(NavLink)`
 `;
 const Name = styled.h4`
   padding-left: 10px;
-  
 `;
 
 export default SideBar;

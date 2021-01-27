@@ -5,11 +5,12 @@ import { IoLocationOutline as Location } from "react-icons/io5";
 import { AiTwotoneCalendar as Calendar } from "react-icons/ai";
 import moment from "moment";
 import { CurrentUserContext } from "../CurrentUserContext";
-
+import Redirect from "../Redirect";
 import SmallTweet from "../Tweets/SmallTweet";
 
 const Profile = () => {
   const history = useHistory();
+ 
   const [boolUser, setBoolUser] = useState(false);
   const [handleTweet, setHandleTweet] = useState();
 
@@ -28,16 +29,15 @@ const Profile = () => {
   setCurrentUserHandle(handle);
   setProfileUrl(true);
 
-  if (!currentUser) {
-    setStatus("loading");
-  }
+
 
   const handleFeed = (id) => {
     setHandleTweet(id);
     history.push(`/tweet/${id}`);
   };
 
-  return currentUserData ? (
+  return (<Redirect status= {status}>
+    {currentUserData && (
     <Wrapper>
       <div>
         <Banner src={currentUserData.bannerSrc} />
@@ -84,9 +84,8 @@ const Profile = () => {
         )}
       </Feed>
     </Wrapper>
-  ) : (
-    <div>Loading</div>
-  );
+  )}
+  </Redirect>)
 };
 
 const Wrapper = styled.div`

@@ -19,68 +19,65 @@ const SmallTweet = ({ tweetArray, handleFeed, status, homeFeed }) => {
   console.log(tweetArray);
   return tweetArray.map((feed, feedId) => {
     return (
-      <Wrapper
-        id="wrapper"
-        key={feedId}
-        setCurrentTweet={setCurrentTweet(`${feed.id}`)}
-        tabIndex="1"
-        onClick={() => {
-          handleFeed(`${feed.id}`);
-        }}
-        onKeyPress={() => {
-          handleFeed(`${feed.id}`);
-        }}
-      >
-        <Feed>
-          <AvatarDiv>
-            <ProfilePic src={feed.author.avatarSrc} />
-          </AvatarDiv>
-          <InfoDiv>
-            <HandleDiv>
-              <div
-                ref={currentFocus}
-                tabIndex="1"
-                onClick={(e) => {
-                  e.cancelBubble = true;
-                  if (e.stopPropagation) {
-                    e.stopPropagation();
-                    if (historyPath) {
-                      history.replace(`${feed.author.handle}`);
-                    } else {
-                      history.replace(`profile/${feed.author.handle}`);
-                    }
+      <Wrapper>
+        <Feed
+          id="wrapper"
+          key={feedId}
+          setCurrentTweet={setCurrentTweet(`${feed.id}`)}
+          tabIndex="1"
+          onClick={() => {
+            handleFeed(`${feed.id}`);
+          }}
+          onKeyPress={() => {
+            handleFeed(`${feed.id}`);
+          }}
+        >
+          <HandleDiv>
+            <ProfileRedirect
+              ref={currentFocus}
+              tabIndex="1"
+              onClick={(e) => {
+                e.cancelBubble = true;
+                if (e.stopPropagation) {
+                  e.stopPropagation();
+                  if (historyPath) {
+                    history.replace(`${feed.author.handle}`);
+                  } else {
+                    history.replace(`profile/${feed.author.handle}`);
                   }
-                }}
-                onKeyPress={(e) => {
-                  e.cancelBubble = true;
-                  if (e.stopPropagation) {
-                    e.stopPropagation();
+                }
+              }}
+              onKeyPress={(e) => {
+                e.cancelBubble = true;
+                if (e.stopPropagation) {
+                  e.stopPropagation();
 
-                    if (historyPath) {
-                      history.replace(`${feed.author.handle}`);
-                    } else {
-                      history.replace(`profile/${feed.author.handle}`);
-                    }
+                  if (historyPath) {
+                    history.replace(`${feed.author.handle}`);
+                  } else {
+                    history.replace(`profile/${feed.author.handle}`);
                   }
-                }}
-              >
-                {feed.isRetweeted}
-                <ProfileLink>{feed.author.displayName} </ProfileLink>
-              </div>
+                }
+              }}
+            >
+              <AvatarDiv>
+                <ProfilePic src={feed.author.avatarSrc} />
+              </AvatarDiv>
+              <ProfileLink>{feed.author.displayName} </ProfileLink>
               <TextPale>{`@ ${feed.author.handle} `}</TextPale>
               <TextPale> -{moment(feed.timestamp).format("MMM YYYY")}</TextPale>
-            </HandleDiv>
-            <Status>{feed.status} </Status>
-          </InfoDiv>
-        </Feed>
+            </ProfileRedirect>
+          </HandleDiv>
+          <Status>{feed.status} </Status>
 
-        <TweetPicWrapper>
-          {feed.media.map((med) => {
-            if (med.url !== "") {
-              return <TweetPic src={med.url} />;
-            }
-          })}
-        </TweetPicWrapper>
+          <TweetPicWrapper>
+            {feed.media.map((med) => {
+              if (med.url !== "") {
+                return <TweetPic src={med.url} />;
+              }
+            })}
+          </TweetPicWrapper>
+        </Feed>
         <TweetActions
           numRetweets={feed.numRetweets}
           isRetweeted={feed.isRetweeted}
@@ -94,32 +91,40 @@ const SmallTweet = ({ tweetArray, handleFeed, status, homeFeed }) => {
 
 const Wrapper = styled.div`
   border: 1px solid lightgray;
+
   display: flex;
   flex-direction: column;
   border-right: none;
   border-left: none;
-  justify-content: center;
 `;
 
 const Feed = styled.div`
   display: flex;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  flex-direction: column;
+  justify-content: center;
 `;
 const AvatarDiv = styled.div`
   display: flex;
   align-items: center;
   padding: 10px;
 `;
-const InfoDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const HandleDiv = styled.div`
+
+const HandleDiv = styled.div``;
+const ProfileRedirect = styled.div`
   display: flex;
   align-items: center;
+
 `;
 const Status = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
+  display: inline-block;
+  overflow-wrap: break-word;
+  max-width: 450px;
+  padding-left: 10px;
 `;
 const TweetPicWrapper = styled.div`
   display: flex;
