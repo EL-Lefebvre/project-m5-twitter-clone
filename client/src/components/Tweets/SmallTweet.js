@@ -6,7 +6,7 @@ import moment from "moment";
 import { COLORS } from "../../constants";
 import TweetActions from "./TweetActions";
 
-const SmallTweet = ({ tweetArray, handleFeed, status, homeFeed }) => {
+const SmallTweet = ({ tweetArray, handleFeed }) => {
   const { setCurrentTweet, setStatus } = useContext(CurrentUserContext);
   const history = useHistory();
   const currentFocus = useRef();
@@ -70,15 +70,12 @@ const SmallTweet = ({ tweetArray, handleFeed, status, homeFeed }) => {
           <Status>{feed.status} </Status>
 
           <TweetPicWrapper>
+            {feed.media 
+            .filter(med => med.url !== "")
+            .map(filteredMedia => (
+              <TweetPic src={filteredMedia.url} />
+            ))}
             
-            {feed.media.map(med => {
-     
-              if (med.url !== "") {
-                
-                return <TweetPic src={med.url} />;
-              }
-              
-            })}
           </TweetPicWrapper>
         </Feed>
         <TweetActions

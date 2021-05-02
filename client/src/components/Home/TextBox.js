@@ -2,21 +2,16 @@ import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { COLORS } from "../../constants";
 import { CurrentUserContext } from "../CurrentUserContext";
-const MAX_lENGTH = 280;
+
 
 const TextBox = ({ addNewTweet }) => {
-  const { mainUserHandle, currentUser } = useContext(CurrentUserContext);
-  const [toggle, setToggle] = useState(false);
+  const { currentUser } = useContext(CurrentUserContext);
+
   const [value, setValue] = useState("");
   const [wordCount, setWordCount] = useState(280);
   const [charCount, setCharCount] = useState(0);
   const [colorChange, setColorChange] = useState("lightgray");
 
-  const handleToggle = (e) => {
-    if (e.key === "Backspace") {
-      setToggle(true);
-    } else setToggle(false);
-  };
   const updatedWordCount = (e) => {
     const currentText = e.target.value;
     setValue(currentText);
@@ -24,19 +19,19 @@ const TextBox = ({ addNewTweet }) => {
   };
 
   useEffect(() => {
-    if ((280 - [charCount]) <= 0) {
+    if (280 - [charCount] <= 0) {
       setColorChange("red");
-    }
-    else  if((280 - [charCount]) <= 55)  {
+    } else if (280 - [charCount] <= 55) {
       setColorChange("#fdd501");
-    } 
-  else{
-    setColorChange("lightgray");
-  }
+    } else {
+      setColorChange("lightgray");
+    }
   }, [charCount]);
 
   const handleClick = (ev) => {
     ev.preventDefault();
+    setCharCount(0);
+    setWordCount(280);
     setValue("");
     fetch("/api/tweet", {
       method: "POST",
@@ -72,7 +67,6 @@ const TextBox = ({ addNewTweet }) => {
           type="text"
           placeholder="What is happening?"
           onChange={updatedWordCount}
-          onKeyDown={handleToggle}
           minLength="0"
           value={value}
         />

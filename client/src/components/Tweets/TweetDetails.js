@@ -7,9 +7,7 @@ import Redirect from "../Redirect";
 const TweetDetails = () => {
   const { tweetId } = useParams();
   const [singleTweetId, setSingleTweetId] = useState("");
-  const { setStatus, status, numRetweet, setNumRetweet } = useContext(
-    CurrentUserContext
-  );
+  const { setStatus, status } = useContext(CurrentUserContext);
 
   useEffect(() => {
     fetch(`/api/tweet/${tweetId}`)
@@ -20,9 +18,6 @@ const TweetDetails = () => {
         setStatus("idle");
       });
   }, [tweetId]);
-
-
-
 
   return (
     <Redirect status={status}>

@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import HeartIcon from "./HeartIcon";
 import PoppingCircle from "./PoppingHeart";
 import ScaleIn from "./ScaleIn";
 
-const Heart = ({ color, size, toggleLike, updatedNumLikes }) => {
+const Heart = ({ color, size, toggleLike }) => {
   const heartSize = size * 0.6;
   return (
     <Wrapper style={{ width: size, height: size }}>
@@ -27,7 +27,5 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const numLike = styled.h5`
 
-`;
 export default Heart;

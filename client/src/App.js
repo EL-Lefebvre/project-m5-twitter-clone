@@ -1,12 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
-import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
 import HomeFeed from "./components/Home/HomeFeed";
 import Error from "./components/Error";
 import Loading from "./components/Loading"
@@ -31,7 +26,7 @@ function App() {
             {
       (status === "error") ? (<Error />) : status === "loading" ? (<Loading />):
          ( <Switch>
-            <Route exact path="/" exact={true}>
+            <Route exact path="/" >
               {" "}
               <HomeFeed />{" "}
             </Route>
@@ -51,9 +46,7 @@ function App() {
             <Route exact path="/profile/:handle">
               <Profile />
             </Route>
-            {/* <Route exact path="/error">
-              <Error />
-            </Route> */}
+        
           </Switch>)
 }
         </Main>

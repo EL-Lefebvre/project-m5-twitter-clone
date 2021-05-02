@@ -17,7 +17,6 @@ export const CurrentUserProvider = ({ children }) => {
   const [currentUserHandle, setCurrentUserHandle] = useState("");
   const [status, setStatus] = useState("loading");
 
-
   // ProfileInfo of Current user (treasurymog)
   const profileInfo = async () => {
     try {
@@ -40,8 +39,7 @@ export const CurrentUserProvider = ({ children }) => {
   useEffect(() => {
     if (!currentUser) {
       setStatus("loading");
-    }
-    else {
+    } else {
       setStatus("idle");
     }
   }, [currentUser]);
@@ -70,13 +68,29 @@ export const CurrentUserProvider = ({ children }) => {
   useEffect(() => {
     if (homeFeed) {
       setStatus("idle");
-    }
-    else {
-      setStatus("loading")
+    } else {
+      setStatus("loading");
     }
   }, [homeFeed]);
 
-  //Fetch tweets for each handle on their profile
+
+  useEffect(() => {
+    if (!currentUserHandle) {
+      setStatus("loading");
+    }
+      // Fetch profile by handle
+    const handleInfo = async () => {
+      try {
+        const response = await fetch(`/api/${currentUserHandle}/profile`)
+          .then((data) => data.json())
+          .then((data) => data.profile);
+  
+        setCurrentUserData(response);
+      } catch (err) {
+        setStatus("error");
+      }
+    };
+      //Fetch tweets for each handle on their profile
   const handleProfileFeed = async () => {
     try {
       const response = await fetch(`/api/${currentUserHandle}/feed`)
@@ -86,37 +100,11 @@ export const CurrentUserProvider = ({ children }) => {
     } catch (err) {
       setStatus("error");
     }
-  }
-
-  // Fetch profile by handle
-  const handleInfo = async () => {
-    try {
-      const response = await fetch(`/api/${currentUserHandle}/profile`)
-        .then((data) => data.json())
-        .then((data) => data.profile);
-
-      setCurrentUserData(response);
-  ;
-    } catch (err) {
-      setStatus("error");
-    }
   };
-
-useEffect(() => {
-  if (!currentUserHandle) {
-    setStatus("loading");
-  }
-     handleInfo();
-  handleProfileFeed();
-  setStatus("idle");
-}, [currentUserHandle]);
-
-
-
-
- 
-
-
+    handleInfo();
+    handleProfileFeed();
+    setStatus("idle");
+  }, [currentUserHandle]);
 
   return (
     <CurrentUserContext.Provider
@@ -135,7 +123,6 @@ useEffect(() => {
         currentProfileFeed,
         currentTweet,
         setCurrentTweet,
-
         currentUserHandle,
         setCurrentUserHandle,
       }}

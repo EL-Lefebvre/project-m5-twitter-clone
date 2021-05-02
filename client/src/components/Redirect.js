@@ -1,25 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-import { SIZES } from "../constants";
-import Sidebar from "./Sidebar";
 import Error from "./Error";
 import Loading from "./Loading";
 
-const Redirect = ({children, status, error})=> {
-    return (
-        <Wrapper>
-           
-            {status==="error" 
-            ? <Error />
-            : status==="loading" 
-            ? <Loading/>
-            : (
-                <MainPage>
-                    {children}
-                </MainPage>
-            )}
-        </Wrapper>
-    );
+const Redirect = ({ children, status }) => {
+  return (
+    <Wrapper>
+      {status === "error" ? (
+        <Error />
+      ) : status === "loading" ? (
+        <Loading />
+      ) : (
+        <MainPage>{children}</MainPage>
+      )}
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.div`
