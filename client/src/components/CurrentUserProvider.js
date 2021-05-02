@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import Error from "./Error";
+import React, { useEffect, useState } from "react";
+
+
 import { CurrentUserContext } from "./CurrentUserContext";
 
 export const CurrentUserProvider = ({ children }) => {
@@ -16,7 +16,7 @@ export const CurrentUserProvider = ({ children }) => {
   const [currentTweet, setCurrentTweet] = useState("");
   const [currentUserHandle, setCurrentUserHandle] = useState("");
   const [status, setStatus] = useState("loading");
-  let history = useHistory();
+
 
   // ProfileInfo of Current user (treasurymog)
   const profileInfo = async () => {
@@ -35,7 +35,7 @@ export const CurrentUserProvider = ({ children }) => {
     if (!currentUser) {
       profileInfo();
     }
-  }, []);
+  }, [currentUser]);
 
   useEffect(() => {
     if (!currentUser) {
@@ -65,7 +65,7 @@ export const CurrentUserProvider = ({ children }) => {
     if (!homeFeed) {
       getHomeFeed();
     }
-  }, []);
+  }, [homeFeed]);
 
   useEffect(() => {
     if (homeFeed) {

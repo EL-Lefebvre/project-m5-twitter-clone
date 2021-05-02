@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState, useEffect } from "react";
+import React, { useRef, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { CurrentUserContext } from "../CurrentUserContext";
 import styled from "styled-components";
@@ -18,7 +18,7 @@ const SmallTweet = ({ tweetArray, handleFeed, status, homeFeed }) => {
 
   return tweetArray.map((feed, feedId) => {
     return (
-      <Wrapper>
+      <Wrapper key={feedId}>
         <Feed
           id="wrapper"
           key={feedId}
@@ -70,10 +70,14 @@ const SmallTweet = ({ tweetArray, handleFeed, status, homeFeed }) => {
           <Status>{feed.status} </Status>
 
           <TweetPicWrapper>
-            {feed.media.map((med) => {
+            
+            {feed.media.map(med => {
+     
               if (med.url !== "") {
+                
                 return <TweetPic src={med.url} />;
               }
+              
             })}
           </TweetPicWrapper>
         </Feed>

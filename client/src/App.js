@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import {
   BrowserRouter as Router,
@@ -19,7 +19,7 @@ import SideBar from "./components/Sidebar";
 import { CurrentUserContext } from "./components/CurrentUserContext";
 function App() {
   const { status } = useContext(CurrentUserContext);
-  let history = useHistory();
+
   //Error message
 
   return (

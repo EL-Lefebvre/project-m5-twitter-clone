@@ -1,7 +1,6 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { COLORS } from "../../constants";
-import { CurrentUserContext } from "../CurrentUserContext";
+
 import RetweetMain from "../Tweets/TweetIcons/Retweet/RetweetMain";
 import Heart from "./TweetIcons/HeartButton/Heart";
 import { FiShare as Share } from "react-icons/fi";
@@ -11,7 +10,6 @@ import { FaRegComment as Comment } from "react-icons/fa";
 const TweetActions = ({ numRetweets, isRetweeted, numLikes, isLiked }) => {
   const [toggleLike, setToggleLike] = useState(isLiked);
   const [toggleRetweet, setToggleRetweet] = useState(isRetweeted);
-  const [colorChange, setColorChange] = useState("black");
   const [updatedNumLikes, setUpdatedNumLikes] = useState(numLikes);
   const [updatedNumRetweet, setUpdatedNumRetweet] = useState(numRetweets);
 
@@ -39,7 +37,6 @@ const TweetActions = ({ numRetweets, isRetweeted, numLikes, isLiked }) => {
     }
     return numRetweets;
   }, [toggleRetweet]);
- 
 
   return (
     <Wrapper>
@@ -57,7 +54,7 @@ const TweetActions = ({ numRetweets, isRetweeted, numLikes, isLiked }) => {
             updatedNumLikes={updatedNumLikes}
           />
         </Actions>
-        <numUpdate>{updatedNumRetweet}</numUpdate>
+        <NumUpdate>{updatedNumRetweet}</NumUpdate>
       </ActionDiv>
       <ActionDiv>
         <Actions color="rgb(224, 36, 94)" onClick={handleClickLike} size={40}>
@@ -68,7 +65,7 @@ const TweetActions = ({ numRetweets, isRetweeted, numLikes, isLiked }) => {
             updatedNumRetweet={updatedNumRetweet}
           />
         </Actions>
-        <numUpdate>{updatedNumLikes}</numUpdate>
+        <NumUpdate>{updatedNumLikes}</NumUpdate>
       </ActionDiv>
 
       <Share size={20} />
@@ -92,6 +89,6 @@ const ActionDiv = styled.div`
   display: flex;
   align-items: center;
 `;
-const numUpdate = styled.h5``;
+const NumUpdate = styled.h5``;
 
 export default TweetActions;
