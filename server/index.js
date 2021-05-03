@@ -14,6 +14,9 @@ app.use(require('./routes/tweet'));
 app.use(require('./routes/feed'));
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.get("/bacon", (req, res) => {
+  res.status(200).json({ greeting: "hello" });
+})
 
 
 const server = app.listen(PORT, function() {
