@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 
 import { CurrentUserContext } from "./CurrentUserContext";
-
+const URL = 'https://cat-twitterclone.herokuapp.com'
 export const CurrentUserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [homeFeed, setHomeFeed] = useState();
