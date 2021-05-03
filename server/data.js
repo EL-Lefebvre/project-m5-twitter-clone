@@ -15,8 +15,8 @@ const users = {
   treasurymog: {
     handle: 'treasurymog',
     displayName: 'Gladstone, Esq.',
-    avatarSrc: '/assets/treasurymog-avatar.jpg',
-    bannerSrc: '/assets/treasurymog-banner.jpeg',
+    avatarSrc: 'C:/Users/elodielefebvre/Documents/Github/project-m5-twitter-clone/assets/treasurymog-avatar.jpg',
+    bannerSrc: 'C:/Users/elodielefebvre/Documents/Github/project-m5-twitter-clone/assets/treasurymog-banner.jpeg',
     location: 'Whitehall, London',
     url: undefined,
     joined: '2016-10-12T12:00',
