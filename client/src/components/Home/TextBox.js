@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { COLORS } from "../../constants";
 import { CurrentUserContext } from "../CurrentUserContext";
 
-
+const URL = 'https://cat-twitterclone.herokuapp.com'
 const TextBox = ({ addNewTweet }) => {
   const { currentUser } = useContext(CurrentUserContext);
 
@@ -33,7 +33,7 @@ const TextBox = ({ addNewTweet }) => {
     setCharCount(0);
     setWordCount(280);
     setValue("");
-    fetch("/api/tweet", {
+    fetch(`${URL}/api/tweet`, {
       method: "POST",
       body: JSON.stringify({ status: value }),
       headers: {

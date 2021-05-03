@@ -20,7 +20,7 @@ export const CurrentUserProvider = ({ children }) => {
   // ProfileInfo of Current user (treasurymog)
   const profileInfo = async () => {
     try {
-      const response = await fetch(`/api/me/profile`)
+      const response = await fetch(`${URL}/api/me/profile`)
         .then((data) => data.json())
         .then((data) => data.profile);
       setCurrentUser(response);
@@ -49,7 +49,7 @@ export const CurrentUserProvider = ({ children }) => {
   // Fetching Data of All Tweets for Current User (HOMEFEED)
   const getHomeFeed = async () => {
     try {
-      const response = await fetch("/api/me/home-feed")
+      const response = await fetch(`${URL}/api/me/home-feed`)
         .then((data) => data.json())
         .then((json) => {
           return Object.values(json.tweetsById);
@@ -81,7 +81,7 @@ export const CurrentUserProvider = ({ children }) => {
       // Fetch profile by handle
     const handleInfo = async () => {
       try {
-        const response = await fetch(`/api/${currentUserHandle}/profile`)
+        const response = await fetch(`${URL}/api/${currentUserHandle}/profile`)
           .then((data) => data.json())
           .then((data) => data.profile);
   
@@ -93,7 +93,7 @@ export const CurrentUserProvider = ({ children }) => {
       //Fetch tweets for each handle on their profile
   const handleProfileFeed = async () => {
     try {
-      const response = await fetch(`/api/${currentUserHandle}/feed`)
+      const response = await fetch(`${URL}/api/${currentUserHandle}/feed`)
         .then((data) => data.json())
         .then((data) => data.tweetsById);
       setCurrentProfileFeed(response);
